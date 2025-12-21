@@ -6,7 +6,7 @@ import "./globals.css"; // ESTA LÍNEA ES VITAL
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Gravity Labs | David",
+  title: "Gravity Labs",
   description: "Creative Software & Art",
 };
 
