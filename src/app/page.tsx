@@ -365,6 +365,7 @@ export default function Home() {
         paquetes: [
           {
             nombre: "Nebula Landing",
+            slug: "nebula-landing", // Identificador para la ruta de detalles
             version: "V-0.0",
             desc: "La opción ideal para empezar rápido. Creamos una página de aterrizaje enfocada en un solo objetivo: convertir tus visitas en clientes. Es ligera, carga al instante y está optimizada para que te encuentren fácilmente en Google.",
             precio: "$499",
@@ -372,6 +373,7 @@ export default function Home() {
           },
           {
             nombre: "Supernova Business",
+            slug: "supernova-business", // Identificador para la ruta de detalles
             version: "V-0.1",
             desc: "Tu casa digital completa. Una web profesional con varias secciones (Inicio, Nosotros, Servicios) y un sistema sencillo para que tú mismo puedas cambiar textos o imágenes sin depender de nadie. Control total y autonomía para tu marca.",
             precio: "$1,200",
@@ -379,6 +381,7 @@ export default function Home() {
           },
           {
             nombre: "Galactic E-Commerce",
+            slug: "galactic-ecommerce", // Identificador para la ruta de detalles
             version: "V-0.2",
             desc: "Tu tienda abierta al mundo las 24 horas. Construimos una plataforma de ventas robusta y segura donde tus clientes pueden comprar con confianza. Manejo de inventario, pagos automáticos y una experiencia de compra fluida y profesional.",
             precio: "$2,500+",
@@ -392,6 +395,7 @@ export default function Home() {
         paquetes: [
           {
             nombre: "Orbit App",
+            slug: "orbit-app", // Identificador para la ruta de detalles
             version: "V-1.0",
             desc: "Tu negocio en el bolsillo de tus clientes. Una aplicación móvil enfocada en la facilidad de uso y la elegancia. Perfecta para ofrecer servicios directos, turnos o catálogos digitales con una experiencia rápida y moderna.",
             precio: "$2,000",
@@ -399,6 +403,7 @@ export default function Home() {
           },
           {
             nombre: "Titanium System",
+            slug: "titanium-system", // Identificador para la ruta de detalles
             version: "V-1.1",
             desc: "Una herramienta potente para tu empresa. Aplicaciones con funciones avanzadas como notificaciones al celular, mapas en tiempo real o sistemas de usuarios. Diseñada para negocios que necesitan una app que trabaje duro por ellos.",
             precio: "$4,500",
@@ -406,6 +411,7 @@ export default function Home() {
           },
           {
             nombre: "Cosmos Enterprise",
+            slug: "cosmos-enterprise", // Identificador para la ruta de detalles
             version: "V-1.2",
             desc: "La solución definitiva a gran escala. Creamos un ecosistema completo que funciona perfecto tanto en iPhone como en Android. Incluye la máxima seguridad para tus datos y una estructura preparada para miles de usuarios simultáneos.",
             precio: "$8,000+",
@@ -458,8 +464,9 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* Acción de redirección a vista detallada del servicio */}
                 <button 
-                  onClick={(e) => handleSmoothScroll(e as any, 'contacto')} 
+                  onClick={() => window.open(`/servicios/${paquete.slug}`, '_blank')} 
                   className="w-full mt-10 py-5 rounded-2xl bg-white/5 border border-white/10 text-[11px] font-black uppercase tracking-[0.35em] hover:bg-white hover:text-black transition-all duration-500 transform active:scale-95"
                 >
                   Iniciar Misión
