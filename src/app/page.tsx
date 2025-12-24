@@ -152,7 +152,7 @@ export default function Home() {
               </div>
               <div className="flex flex-col border-l border-white/10 pl-6 py-0.5">
                 <span className="font-light text-xl tracking-[0.4em] uppercase text-white leading-none mb-1">Gravity</span>
-                <span className="text-[8px] tracking-[0.8em] text-cyan-400 font-mono uppercase leading-none opacity-80">Technology Labs</span>
+                <span className="text-[8px] tracking-[0.8em] text-cyan-400 font-mono uppercase leading-none opacity-80">Labs</span>
               </div>
             </div>
             
@@ -199,16 +199,16 @@ export default function Home() {
             <div className="space-y-10 mt-10">
               <div className="inline-flex items-center gap-5 animate-reveal">
                 <div className="h-[1px] w-14 bg-indigo-500/50" />
-                <span className="text-indigo-400 font-mono text-[10px] tracking-[0.7em] uppercase">High Fidelty Solutions</span>
+                <span className="text-indigo-400 font-mono text-[10px] tracking-[0.7em] uppercase">Desarrollo de Alta Resolución</span>
               </div>
-              <h1 className="text-6xl md:text-8xl font-black leading-[0.85] tracking-tighter animate-reveal delay-1 text-white">Digital <br /><span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600">Evolution</span></h1>
+              <h1 className="text-6xl md:text-6xl font-black leading-[0.85] tracking-tighter animate-reveal delay-1 text-white">Tu proyecto digital,<br /><span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600">sin complicaciones.</span></h1>
               <p className="text-gray-400 text-xl max-w-lg font-light leading-relaxed animate-reveal delay-2 italic">
-                Ingeniería de software de precisión diseñada para empresas que no aceptan el status quo. Elevamos tu marca a una órbita superior.
+                Eliminamos la fricción entre la visión técnica y el éxito comercial. Sustituimos los procesos tradicionales por un sistema de ejecución directa.
               </p>
               <div className="pt-6 animate-reveal delay-3 flex items-center gap-8">
-                <button onClick={(e) => handleSmoothScroll(e as any, 'servicios')} className="bg-indigo-600 hover:bg-indigo-500 px-16 py-5 rounded-2xl font-black transition-all shadow-3xl shadow-indigo-500/30 uppercase tracking-[0.3em] text-[11px]">Explorar Órbitas</button>
+                <button onClick={(e) => handleSmoothScroll(e as any, 'servicios')} className="bg-indigo-600 hover:bg-indigo-500 px-16 py-5 rounded-2xl font-black transition-all shadow-3xl shadow-indigo-500/30 uppercase tracking-[0.3em] text-[11px]">LANZAR MISIÓN</button>
                 <div className="hidden sm:block text-[9px] font-mono text-gray-600 uppercase tracking-widest leading-loose">
-                  System_Status: Optimal <br />
+                  ESTADO: LISTO PARA DESPEGUE<br />
                   Connection: Secure_SSL
                 </div>
               </div>
@@ -237,10 +237,10 @@ export default function Home() {
                   <div className="w-4 h-4 rounded-full bg-cyan-400 animate-ping" />
                 </div>
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-[10px] font-mono text-cyan-400 animate-pulse tracking-widest uppercase font-bold">Live_Metrics</span>
+                  <span className="text-[10px] font-mono text-cyan-400 animate-pulse tracking-widest uppercase font-bold">SYNC_ALIGNED</span>
                 </div>
-                <h4 className="font-bold text-2xl mb-3 tracking-tight text-white/90">Estrategia 360°</h4>
-                <p className="text-[11px] text-gray-500 leading-relaxed font-normal">Sincronización total entre tu infraestructura técnica y tus objetivos de mercado.</p>
+                <h4 className="font-bold text-2xl mb-3 tracking-tight text-white/90">Sincronización de Órbita</h4>
+                <p className="text-[11px] text-gray-500 leading-relaxed font-normal">Ingeniería de software con ADN de marketing. Alineamos tu infraestructura técnica con objetivos comerciales.</p>
               </div>
             </div>
           </div>
@@ -250,7 +250,7 @@ export default function Home() {
         <section id="nosotros" className="relative z-10 max-w-7xl mx-auto px-8 py-40 border-t border-white/5">
           <div className="flex justify-between items-start mb-16">
             <div className="space-y-4">
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter animate-reveal">Ingeniería <span className="text-gray-500 italic">Orgánica.</span></h2>
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter animate-reveal">¿Quiénes <span className="text-gray-500 italic">somos?</span></h2>
               <p className="text-gray-500 font-mono text-xs tracking-widest uppercase">Protocol: Creative_Development_Standard_V2</p>
             </div>
             <div className="text-[10px] font-mono text-gray-600 uppercase tracking-[0.5em] pt-6 hidden md:block">
@@ -260,16 +260,18 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
             <div className="space-y-12">
               <p className="text-gray-400 text-xl font-light animate-reveal delay-1 max-w-xl leading-relaxed">
-                En <span className="text-white font-medium">Gravity Labs</span>, no solo escribimos código; esculpimos ecosistemas digitales. Cada línea está pensada para la máxima eficiencia y cada pixel para una respuesta emocional.
+                En <span className="text-white font-medium">Gravity Labs</span>, entendemos que tu presencia digital es mucho más que una tarjeta de presentación; es el motor de tu negocio. Por eso, no solo escribimos código ni nos limitamos a crear páginas web o aplicaciones aisladas. Construimos ecosistemas digitales vivos que evolucionan y crecen a la par de tus objetivos. <br /><br />
+
+Nuestra metodología fusiona la rigurosidad de la ingeniería de software con una sensibilidad artística única. Esto nos permite cuidar cada engranaje técnico para que funcione con una precisión milimétrica, mientras diseñamos interfaces que logran algo que el código por sí solo no puede: conectar emocionalmente con tus clientes desde el primer segundo.
               </p>
               <div className="grid grid-cols-2 gap-8 animate-reveal delay-2">
                 <div className="text-left">
                   <h4 className="text-3xl font-black text-white mb-2">99.9%</h4>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">Uptime Architecture</p>
+                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">DISPONIBILIDAD</p>
                 </div>
                 <div className="text-left">
                   <h4 className="text-3xl font-black text-white mb-2">450ms</h4>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">Avg Response Time</p>
+                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">VELOCIDAD DE RESPUESTA</p>
                 </div>
               </div>
             </div>
@@ -286,9 +288,9 @@ export default function Home() {
                 </div>
                 <ul className="space-y-14">
                   {[
-                    {t: "Desarrollo Nativo", d: "Optimización a nivel de compilación para garantizar fluidez absoluta."},
-                    {t: "Marketing de Precisión", d: "Algoritmos predictivos para maximizar el ROI en cada campaña."},
-                    {t: "UI Sensorial", d: "Interfaces que anticipan las necesidades del usuario final."}
+                    {t: "Desarrollo Nativo", d: "Creamos software a medida que aprovecha al máximo la potencia de cada dispositivo. Esto se traduce en una experiencia fluida, sin errores ni interrupciones."},
+                    {t: "Marketing de Precisión", d: "No adivinamos; usamos datos y estrategias calculadas para asegurar que cada inversión en publicidad se convierta en resultados reales para tu marca."},
+                    {t: "Diseño Sensorial", d: "Creamos interfaces intuitivas que guían al usuario de forma natural. Si es fácil de usar, es fácil de vender."}
                   ].map((item, i) => (
                     <li key={i} className="relative pl-14 animate-reveal" style={{ animationDelay: `${0.8 + (i * 0.2)}s` }}>
                       <div className="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_15px_#22d3ee]" />
@@ -302,135 +304,317 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Sección de Paquetes - Deployment Selection */}
-        <section id="servicios" className="relative z-10 py-40 border-t border-white/5 bg-gradient-to-b from-transparent via-[#080815] to-transparent">
-          <div className="max-w-7xl mx-auto px-8 relative z-10">
-            <div className="flex flex-col items-center mb-28 space-y-6">
-              <div className="flex gap-5 items-center text-[11px] font-mono text-indigo-400 uppercase tracking-[0.9em] animate-reveal">
-                <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
-                Select Orbital Trajectory
-              </div>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter animate-reveal delay-1 text-center">Niveles de <span className="text-indigo-500">Despliegue.</span></h2>
-              <p className="text-gray-500 text-sm font-mono uppercase tracking-[0.5em] mt-4 animate-terminal-flicker text-center">LOG: WAITING_FOR_SIGNAL_INPUT_...</p>
-            </div>
-            
-            {categorias.map((cat, idx) => (
-              <div key={idx} className="mb-40 last:mb-0">
-                <div className="mb-16 animate-reveal text-left">
-                  <h3 className="text-3xl font-black mb-4 uppercase tracking-tighter border-l-4 border-indigo-600 pl-8">{cat.titulo}</h3>
-                  <p className="text-gray-500 text-sm ml-9 max-w-2xl leading-relaxed">{cat.subtitulo}</p>
-                </div>
+        {/* Sección de Paquetes - Selección de Trayectoria */}
+<section id="servicios" className="relative z-10 py-40 border-t border-white/5 bg-gradient-to-b from-transparent via-[#080815] to-transparent">
+  <div className="max-w-7xl mx-auto px-8 relative z-10">
+    
+    {/* Encabezado Principal */}
+    <div className="flex flex-col items-center mb-28 space-y-6">
+      <div className="flex gap-5 items-center text-[11px] font-mono text-indigo-400 uppercase tracking-[0.9em] animate-reveal">
+        <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
+        Configuración de Despegue
+      </div>
+      <h2 className="text-5xl md:text-7xl font-black tracking-tighter animate-reveal delay-1 text-center">
+        Planes de <span className="text-indigo-500">Despliegue.</span>
+      </h2>
+      <p className="text-gray-500 text-sm font-mono uppercase tracking-[0.5em] mt-4 animate-terminal-flicker text-center">
+        SISTEMA: ESPERANDO SELECCIÓN DE RUTA...
+      </p>
+    </div>
+    
+    {[
+      {
+        titulo: "Arquitectura de Ecosistemas Web",
+        subtitulo: "Sitios web rápidos y elegantes diseñados para que tu negocio crezca en internet.",
+        paquetes: [
+          {
+            nombre: "Nebula Landing",
+            version: "V-0.0",
+            desc: "La opción ideal para empezar rápido. Creamos una página de aterrizaje enfocada en un solo objetivo: convertir tus visitas en clientes. Es ligera, carga al instante y está optimizada para que te encuentren fácilmente en Google.",
+            precio: "$499",
+            status: "LANZAMIENTO_INMEDIATO"
+          },
+          {
+            nombre: "Supernova Business",
+            version: "V-0.1",
+            desc: "Tu casa digital completa. Una web profesional con varias secciones (Inicio, Nosotros, Servicios) y un sistema sencillo para que tú mismo puedas cambiar textos o imágenes sin depender de nadie. Control total y autonomía para tu marca.",
+            precio: "$1,200",
+            status: "CONTROL_TOTAL"
+          },
+          {
+            nombre: "Galactic E-Commerce",
+            version: "V-0.2",
+            desc: "Tu tienda abierta al mundo las 24 horas. Construimos una plataforma de ventas robusta y segura donde tus clientes pueden comprar con confianza. Manejo de inventario, pagos automáticos y una experiencia de compra fluida y profesional.",
+            precio: "$2,500+",
+            status: "VENTAS_ACTIVAS"
+          }
+        ]
+      },
+      {
+        titulo: "Sistemas de Propulsión Móvil",
+        subtitulo: "Aplicaciones para celulares que tus clientes amarán usar todos los días.",
+        paquetes: [
+          {
+            nombre: "Orbit App",
+            version: "V-1.0",
+            desc: "Tu negocio en el bolsillo de tus clientes. Una aplicación móvil enfocada en la facilidad de uso y la elegancia. Perfecta para ofrecer servicios directos, turnos o catálogos digitales con una experiencia rápida y moderna.",
+            precio: "$2,000",
+            status: "EXPERIENCIA_MOVIL"
+          },
+          {
+            nombre: "Titanium System",
+            version: "V-1.1",
+            desc: "Una herramienta potente para tu empresa. Aplicaciones con funciones avanzadas como notificaciones al celular, mapas en tiempo real o sistemas de usuarios. Diseñada para negocios que necesitan una app que trabaje duro por ellos.",
+            precio: "$4,500",
+            status: "ALTO_RENDIMIENTO"
+          },
+          {
+            nombre: "Cosmos Enterprise",
+            version: "V-1.2",
+            desc: "La solución definitiva a gran escala. Creamos un ecosistema completo que funciona perfecto tanto en iPhone como en Android. Incluye la máxima seguridad para tus datos y una estructura preparada para miles de usuarios simultáneos.",
+            precio: "$8,000+",
+            status: "ESTÁNDAR_GLOBAL"
+          }
+        ]
+      }
+    ].map((cat, idx) => (
+      <div key={idx} className="mb-40 last:mb-0">
+        <div className="mb-16 animate-reveal text-left">
+          <h3 className="text-3xl font-black mb-4 uppercase tracking-tighter border-l-4 border-indigo-600 pl-8">
+            {cat.titulo}
+          </h3>
+          <p className="text-gray-500 text-sm ml-9 max-w-2xl leading-relaxed">
+            {cat.subtitulo}
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {cat.paquetes.map((paquete, pIdx) => (
+            <div key={pIdx} className="glow-border-container group animate-reveal" style={{ animationDelay: `${0.3 + (pIdx * 0.2)}s` }}>
+              <div className="glow-border-tracer opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <div className="glow-content-wrapper p-12 h-full flex flex-col glass-card border-none bg-[#0A0A1B]/60 backdrop-blur-xl">
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                  {cat.paquetes.map((paquete, pIdx) => (
-                    <div key={pIdx} className="glow-border-container group animate-reveal" style={{ animationDelay: `${0.3 + (pIdx * 0.2)}s` }}>
-                      <div className="glow-border-tracer opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-                      <div className="glow-content-wrapper p-12 h-full flex flex-col glass-card border-none">
-                        <div className="flex justify-between items-start mb-6">
-                          <h4 className="text-2xl font-black tracking-tight group-hover:text-cyan-400 transition-colors duration-500 text-left">{paquete.nombre}</h4>
-                          <span className="text-[9px] font-mono text-gray-600 border border-white/10 px-2 py-1 rounded">V-{idx}.{pIdx}</span>
-                        </div>
-                        <p className="text-gray-400 text-[13px] font-light mb-12 flex-grow leading-relaxed text-left">{paquete.desc}</p>
-                        <div className="mt-auto pt-10 border-t border-white/10 flex items-center justify-between">
-                          <div className="flex flex-col text-left">
-                            <span className="text-[10px] font-mono text-gray-600 uppercase tracking-widest">Starting_at</span>
-                            <span className="text-4xl font-black text-white">{paquete.precio}</span>
-                          </div>
-                          <div className="w-12 h-12 rounded-full border border-white/5 flex items-center justify-center group-hover:border-cyan-500/50 transition-colors">
-                            <div className="w-2 h-2 rounded-full bg-cyan-400 opacity-20 group-hover:opacity-100 animate-pulse" />
-                          </div>
-                        </div>
-                        <button onClick={(e) => handleSmoothScroll(e as any, 'contacto')} className="w-full mt-10 py-5 rounded-2xl bg-white/5 border border-white/10 text-[11px] font-black uppercase tracking-[0.35em] hover:bg-white hover:text-black transition-all duration-500 transform active:scale-95">Inicializar</button>
-                      </div>
-                    </div>
-                  ))}
+                <div className="flex justify-between items-start mb-8">
+                  <div className="flex flex-col gap-1 text-left">
+                    <h4 className="text-2xl font-black tracking-tight group-hover:text-cyan-400 transition-colors duration-500">
+                      {paquete.nombre}
+                    </h4>
+                    <span className="text-[10px] font-mono text-cyan-500/80 tracking-[0.2em] uppercase font-bold">
+                      {paquete.status}
+                    </span>
+                  </div>
+                  <span className="text-[9px] font-mono text-gray-600 border border-white/10 px-2 py-1 rounded">
+                    {paquete.version}
+                  </span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
-        {/* SECCIÓN NUESTRO PROCESO - Deployment Lifecycle */}
-        <section id="proceso" className="relative z-10 max-w-7xl mx-auto px-8 py-48 border-t border-white/5">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-32 gap-12">
-            <div className="max-w-3xl space-y-6 text-left">
-              <span className="text-cyan-400 font-mono text-[11px] tracking-[1.2em] uppercase block font-bold">Gravity_Sequence</span>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter">Ciclo de <span className="text-indigo-500 italic">Ejecución.</span></h2>
-              <p className="text-gray-500 text-lg font-light leading-relaxed">Un flujo de trabajo iterativo diseñado para eliminar la fricción técnica y acelerar el tiempo de salida al mercado.</p>
-            </div>
-            <div className="text-[10px] font-mono text-gray-600 uppercase tracking-[0.5em] pb-4 border-b border-white/10 w-full md:w-auto text-right">
-              PHASE_SYNC: ALPHA_SEQUENCE_ON
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-16 relative">
-            <div className="hidden md:block absolute top-14 left-0 w-full h-[1px] bg-white/5 overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent animate-[flow-line_4s_infinite_linear]" style={{animationName: 'flow-line'}} />
-            </div>
-            {pasosProceso.map((paso, idx) => (
-              <div key={idx} className="relative group step-node animate-reveal text-left" style={{ animationDelay: `${idx * 0.25}s` }}>
-                <div className="relative mb-14 inline-block">
-                  <div className="w-28 h-28 rounded-[2.5rem] bg-[#0a0a15] border border-white/10 flex items-center justify-center text-4xl font-black transition-all duration-700 group-hover:border-cyan-500 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.2)] group-hover:scale-110 overflow-hidden">
-                    <span className="relative z-10 group-hover:text-cyan-400 transition-colors">{paso.n}</span>
-                    <div className="scan-effect" />
+                <p className="text-gray-400 text-[14px] font-light mb-12 flex-grow leading-relaxed text-left">
+                  {paquete.desc}
+                </p>
+
+                <div className="mt-auto pt-10 border-t border-white/10 flex items-center justify-between">
+                  <div className="flex flex-col text-left">
+                    <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Inversión desde</span>
+                    <span className="text-4xl font-black text-white">{paquete.precio}</span>
+                  </div>
+                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-cyan-500/50 transition-all duration-500">
+                    <div className="w-2 h-2 rounded-full bg-cyan-400 opacity-20 group-hover:opacity-100 animate-pulse" />
                   </div>
                 </div>
-                <div className="space-y-5">
-                  <div className="flex items-center gap-4 text-left">
-                    <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest font-bold">{paso.tech}</span>
-                  </div>
-                  <h3 className="text-3xl font-black tracking-tighter group-hover:translate-x-3 transition-transform duration-500 text-left">{paso.t}</h3>
-                  <p className="text-sm text-gray-500 font-light leading-relaxed group-hover:text-gray-400 transition-colors text-left">{paso.d}</p>
-                </div>
+
+                <button 
+                  onClick={(e) => handleSmoothScroll(e as any, 'contacto')} 
+                  className="w-full mt-10 py-5 rounded-2xl bg-white/5 border border-white/10 text-[11px] font-black uppercase tracking-[0.35em] hover:bg-white hover:text-black transition-all duration-500 transform active:scale-95"
+                >
+                  Iniciar Misión
+                </button>
               </div>
-            ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+        {/* SECCIÓN NUESTRO PROCESO - Ciclo de Ejecución */}
+<section id="proceso" className="relative z-10 py-48 border-t border-white/5 bg-gradient-to-b from-transparent via-[#050510] to-transparent">
+  <div className="max-w-7xl mx-auto px-8 relative z-10">
+    
+    {/* Encabezado Centrado Estilo Gravity Labs */}
+    <div className="flex flex-col items-center mb-32 space-y-6">
+      {/* Indicador superior con pulso */}
+      <div className="flex gap-5 items-center text-[11px] font-mono text-indigo-400 uppercase tracking-[0.9em] animate-reveal">
+        <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
+        Gravity_Sequence_Protocol
+      </div>
+      
+      {/* Título Principal con Itálica e Índigo */}
+      <h2 className="text-5xl md:text-7xl font-black tracking-tighter animate-reveal delay-1 text-center">
+        Ciclo de <span className="text-indigo-500 italic">Ejecución.</span>
+      </h2>
+
+      {/* Identificadores de Sistema Inferiores */}
+      <div className="flex flex-col items-center gap-2">
+        <p className="text-gray-500 text-sm font-mono uppercase tracking-[0.5em] mt-4 animate-terminal-flicker text-center">
+          PHASE_SYNC: ALPHA_SEQUENCE_ON
+        </p>
+        <p className="text-gray-400 text-lg font-light max-w-2xl text-center leading-relaxed mt-2">
+          Un camino estructurado y transparente para llevar tu visión desde el concepto inicial hasta un despliegue exitoso.
+        </p>
+      </div>
+    </div>
+    
+    {/* Grid de Pasos del Proceso */}
+    <div className="grid grid-cols-1 md:grid-cols-5 gap-12 relative">
+      {/* Línea de flujo animada que conecta los nodos */}
+      <div className="hidden md:block absolute top-14 left-0 w-full h-[1px] bg-white/5 overflow-hidden">
+          <div className="w-full h-full bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent animate-[flow-line_4s_infinite_linear]" style={{animationName: 'flow-line'}} />
+      </div>
+
+      {[
+        {
+          n: "01",
+          tech: "Plan_Selection",
+          t: "Elección",
+          d: "Seleccionas el plan que mejor se adapta a tus metas. Definimos el alcance para asegurar que la inversión sea exacta."
+        },
+        {
+          n: "02",
+          tech: "Strategic_Sync",
+          t: "Escucha",
+          d: "Analizamos a fondo tu negocio y tus clientes. Traducimos tus ideas en una estrategia técnica sólida y fácil de entender."
+        },
+        {
+          n: "03",
+          tech: "Visual_Prototype",
+          t: "Diseño",
+          d: "Creamos la interfaz de tu proyecto. Podrás ver y probar cómo lucirá la experiencia antes de iniciar la construcción."
+        },
+        {
+          n: "04",
+          tech: "Core_Engineering",
+          t: "Desarrollo",
+          d: "Transformamos el diseño en código de alta fidelidad. Construimos una herramienta rápida, segura y optimizada."
+        },
+        {
+          n: "05",
+          tech: "Final_Mission",
+          t: "Despegue",
+          d: "Lanzamos tu proyecto al mundo y monitoreamos su rendimiento para asegurar que todo funcione a la perfección."
+        }
+      ].map((paso, idx) => (
+        <div key={idx} className="relative group step-node animate-reveal text-left" style={{ animationDelay: `${idx * 0.20}s` }}>
+          {/* Nodo visual con efecto Scan */}
+          <div className="relative mb-14 inline-block">
+            <div className="w-24 h-24 rounded-[2rem] bg-[#0a0a15] border border-white/10 flex items-center justify-center text-3xl font-black transition-all duration-700 group-hover:border-cyan-500 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.2)] group-hover:scale-110 overflow-hidden">
+              <span className="relative z-10 group-hover:text-white transition-colors">
+                {paso.n}
+              </span>
+              <div className="scan-effect absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000" />
+            </div>
           </div>
-        </section>
+
+          {/* Información del Paso */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 text-left">
+              <span className="text-[9px] font-mono text-indigo-400 uppercase tracking-widest font-bold border border-indigo-500/20 px-2 py-0.5 rounded">
+                {paso.tech}
+              </span>
+            </div>
+            <h3 className="text-2xl font-black tracking-tighter group-hover:text-cyan-400 transition-colors text-left uppercase">
+              {paso.t}
+            </h3>
+            <p className="text-[13px] text-gray-500 font-light leading-relaxed group-hover:text-gray-400 transition-colors text-left">
+              {paso.d}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
         {/* SECCIÓN CONTACTO - Uplink Terminal */}
-        <section id="contacto" className="relative z-10 max-w-7xl mx-auto px-8 py-48 border-t border-white/5">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-28 items-center">
-            <div className="space-y-12 text-left">
-              <h2 className="text-6xl md:text-8xl font-black text-white leading-none tracking-tighter">Establece <br /><span className="text-cyan-400 italic">Conexión.</span></h2>
-              <div className="space-y-6">
-                <p className="text-gray-400 text-lg font-light leading-relaxed max-w-md">
-                  Nuestros ingenieros están listos para decodificar tus necesidades. Inicia el protocolo de transmisión ahora.
-                </p>
-                <div className="text-[10px] font-mono text-gray-500 uppercase tracking-[0.6em] flex items-center gap-4">
-                  <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_#22c55e]" />
-                  Uplink_Signal: READY_TO_TRANSMIT
-                </div>
+<section id="contacto" className="relative z-10 py-48 border-t border-white/5 bg-gradient-to-b from-transparent to-[#050510]">
+  <div className="max-w-7xl mx-auto px-8 relative z-10">
+    
+    {/* Encabezado Centrado Estilo Gravity Labs */}
+    <div className="flex flex-col items-center mb-28 space-y-6">
+      <div className="flex gap-5 items-center text-[11px] font-mono text-cyan-400 uppercase tracking-[0.9em] animate-reveal">
+        <span className="w-2 h-2 rounded-full bg-cyan-500 animate-ping" />
+        Direct_Communication_Link
+      </div>
+      
+      <h2 className="text-5xl md:text-7xl font-black tracking-tighter animate-reveal delay-1 text-center">
+        Establece <span className="text-cyan-400 italic">Conexión.</span>
+      </h2>
+
+      <div className="flex flex-col items-center gap-2">
+        <p className="text-gray-500 text-sm font-mono uppercase tracking-[0.5em] mt-4 animate-terminal-flicker text-center">
+          Uplink_Signal: READY_TO_TRANSMIT
+        </p>
+        <p className="text-gray-400 text-lg font-light max-w-2xl text-center leading-relaxed mt-2">
+          ¿Tienes alguna duda técnica o necesitas soporte con tu proyecto? Nuestro equipo está listo para escucharte y resolver tus desafíos.
+        </p>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-28 items-center">
+      {/* Texto Persuasivo de Soporte */}
+      <div className="space-y-12 text-left">
+        <div className="space-y-8">
+          <div className="border-l-2 border-indigo-500 pl-8 space-y-4">
+            <h3 className="text-2xl font-black text-white uppercase tracking-tight">Soporte Prioritario</h3>
+            <p className="text-gray-500 text-base font-light leading-relaxed">
+              No dejes que una duda detenga tu crecimiento. Respondemos a todas las consultas en menos de 24 horas con soluciones claras y directas.
+            </p>
+          </div>
+          
+          <div className="border-l-2 border-cyan-500 pl-8 space-y-4">
+            <h3 className="text-2xl font-black text-white uppercase tracking-tight">Consultoría Técnica</h3>
+            <p className="text-gray-500 text-base font-light leading-relaxed">
+              ¿No estás seguro de qué plan elegir? Cuéntanos tu idea y te ayudaremos a seleccionar la trayectoria más eficiente para tu negocio.
+            </p>
+          </div>
+        </div>
+
+        <div className="text-[10px] font-mono text-gray-500 uppercase tracking-[0.6em] flex items-center gap-4 bg-white/5 p-4 rounded-xl w-fit">
+          <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_#22c55e]" />
+          Sistemas Operativos: 24/7 Monitoring
+        </div>
+      </div>
+      
+      {/* Formulario Estilo Terminal */}
+      <div className="glow-border-container group">
+        <div className="glow-border-tracer opacity-50 group-hover:opacity-100 transition-opacity" />
+        <div className="glow-content-wrapper p-12 md:p-16 bg-[#0A0A1B]/80 backdrop-blur-xl">
+          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3 text-left">
+                <label className="text-[10px] font-mono text-gray-500 uppercase ml-4 tracking-widest font-bold">Tu Nombre</label>
+                <input type="text" placeholder="Nombre completo" className="input-field w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white focus:border-cyan-500 outline-none transition-all" />
               </div>
+              <div className="space-y-3 text-left">
+                <label className="text-[10px] font-mono text-gray-500 uppercase ml-4 tracking-widest font-bold">Correo de Respuesta</label>
+                <input type="email" placeholder="email@ejemplo.com" className="input-field w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white focus:border-cyan-500 outline-none transition-all" />
+              </div>
+            </div>
+            <div className="space-y-3 text-left">
+              <label className="text-[10px] font-mono text-gray-500 uppercase ml-4 tracking-widest font-bold">Mensaje o Consulta</label>
+              <textarea placeholder="¿En qué podemos ayudarte hoy?" rows={5} className="input-field w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white focus:border-cyan-500 outline-none transition-all resize-none"></textarea>
             </div>
             
-            <div className="glow-border-container group">
-              <div className="glow-border-tracer opacity-50 group-hover:opacity-100 transition-opacity" />
-              <div className="glow-content-wrapper p-12 md:p-16">
-                <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-2 text-left">
-                      <label className="text-[9px] font-mono text-gray-600 uppercase ml-4 tracking-widest">Identificación</label>
-                      <input type="text" placeholder="Nombre completo" className="input-field" />
-                    </div>
-                    <div className="space-y-2 text-left">
-                      <label className="text-[9px] font-mono text-gray-600 uppercase ml-4 tracking-widest">Canal de Retorno</label>
-                      <input type="email" placeholder="Email corporativo" className="input-field" />
-                    </div>
-                  </div>
-                  <div className="space-y-2 text-left">
-                    <label className="text-[9px] font-mono text-gray-600 uppercase ml-4 tracking-widest">Buffer de Datos</label>
-                    <textarea placeholder="Cuéntanos sobre tu visión o desafíos técnicos..." rows={5} className="input-field resize-none"></textarea>
-                  </div>
-                  <button className="w-full bg-indigo-600 hover:bg-cyan-500 py-6 rounded-2xl font-black text-[12px] uppercase tracking-[0.4em] transition-all duration-500 shadow-2xl shadow-indigo-600/20 active:scale-95 group overflow-hidden relative">
-                    <span className="relative z-10">Enviar Señal</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-
+            <button className="w-full bg-indigo-600 hover:bg-cyan-500 py-6 rounded-2xl font-black text-[12px] uppercase tracking-[0.4em] transition-all duration-500 shadow-2xl shadow-indigo-600/20 active:scale-95 group overflow-hidden relative">
+              <span className="relative z-10 text-white">Enviar Mensaje</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
         {/* FOOTER - System Archive */}
         <footer className="relative z-10 border-t border-white/5 bg-[#05050b]/90 backdrop-blur-3xl pt-32 pb-16">
           <div className="max-w-7xl mx-auto px-8">
