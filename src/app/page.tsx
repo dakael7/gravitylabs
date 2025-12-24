@@ -246,63 +246,99 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Sección Nosotros - System Core */}
-        <section id="nosotros" className="relative z-10 max-w-7xl mx-auto px-8 py-40 border-t border-white/5">
-          <div className="flex justify-between items-start mb-16">
-            <div className="space-y-4">
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter animate-reveal">¿Quiénes <span className="text-gray-500 italic">somos?</span></h2>
-              <p className="text-gray-500 font-mono text-xs tracking-widest uppercase">Protocol: Creative_Development_Standard_V2</p>
-            </div>
-            <div className="text-[10px] font-mono text-gray-600 uppercase tracking-[0.5em] pt-6 hidden md:block">
-              <span className="text-indigo-500">SYS_AUTH_HEX:</span> #GL_{browserName}_8B2
-            </div>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
-            <div className="space-y-12">
-              <p className="text-gray-400 text-xl font-light animate-reveal delay-1 max-w-xl leading-relaxed">
-                En <span className="text-white font-medium">Gravity Labs</span>, entendemos que tu presencia digital es mucho más que una tarjeta de presentación; es el motor de tu negocio. Por eso, no solo escribimos código ni nos limitamos a crear páginas web o aplicaciones aisladas. Construimos ecosistemas digitales vivos que evolucionan y crecen a la par de tus objetivos. <br /><br />
+        {/* Sección Nosotros - System Core / Ingeniería Orgánica */}
+<section id="nosotros" className="relative z-10 py-40 border-t border-white/5 bg-gradient-to-b from-transparent via-[#050510] to-transparent">
+  <div className="max-w-7xl mx-auto px-8 relative z-10">
+    
+    {/* Encabezado Centrado Coherente con el resto del sitio */}
+    <div className="flex flex-col items-center mb-28 space-y-6">
+      {/* Indicador de sistema superior */}
+      <div className="flex gap-5 items-center text-[11px] font-mono text-indigo-400 uppercase tracking-[0.9em] animate-reveal">
+        <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
+        Mission Intelligence Unit
+      </div>
+      
+      {/* Título Principal con Gradiente Orgánico e Itálica */}
+      <h2 className="text-5xl md:text-7xl font-black tracking-tighter animate-reveal delay-1 text-center">
+        Ingeniería{' '}
+        <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-indigo-500 bg-clip-text text-transparent italic">
+          Orgánica.
+        </span>
+      </h2>
 
-Nuestra metodología fusiona la rigurosidad de la ingeniería de software con una sensibilidad artística única. Esto nos permite cuidar cada engranaje técnico para que funcione con una precisión milimétrica, mientras diseñamos interfaces que logran algo que el código por sí solo no puede: conectar emocionalmente con tus clientes desde el primer segundo.
-              </p>
-              <div className="grid grid-cols-2 gap-8 animate-reveal delay-2">
-                <div className="text-left">
-                  <h4 className="text-3xl font-black text-white mb-2">99.9%</h4>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">DISPONIBILIDAD</p>
-                </div>
-                <div className="text-left">
-                  <h4 className="text-3xl font-black text-white mb-2">450ms</h4>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">VELOCIDAD DE RESPUESTA</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="glow-border-container group animate-reveal delay-2"> 
-              <div className="glow-border-tracer opacity-40 group-hover:opacity-80 transition-opacity" />
-              <div className="glow-content-wrapper p-14">
-                <div className="flex justify-between items-center mb-14">
-                  <h3 className="text-xl font-black uppercase tracking-widest flex items-center gap-4">
-                    <span className="w-2 h-8 bg-indigo-600 rounded-full" />
-                    Filosofía Técnica
-                  </h3>
-                  <span className="text-[10px] font-mono text-cyan-500 animate-pulse tracking-widest uppercase font-bold">Deep_Scan_Init</span>
-                </div>
-                <ul className="space-y-14">
-                  {[
-                    {t: "Desarrollo Nativo", d: "Creamos software a medida que aprovecha al máximo la potencia de cada dispositivo. Esto se traduce en una experiencia fluida, sin errores ni interrupciones."},
-                    {t: "Marketing de Precisión", d: "No adivinamos; usamos datos y estrategias calculadas para asegurar que cada inversión en publicidad se convierta en resultados reales para tu marca."},
-                    {t: "Diseño Sensorial", d: "Creamos interfaces intuitivas que guían al usuario de forma natural. Si es fácil de usar, es fácil de vender."}
-                  ].map((item, i) => (
-                    <li key={i} className="relative pl-14 animate-reveal" style={{ animationDelay: `${0.8 + (i * 0.2)}s` }}>
-                      <div className="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_15px_#22d3ee]" />
-                      <h4 className="text-white text-lg font-bold mb-3 text-left">{item.t}</h4>
-                      <p className="text-[13px] text-gray-500 font-light leading-relaxed text-left">{item.d}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+      {/* Identificadores de Protocolo Inferiores */}
+      <div className="flex flex-col items-center gap-2">
+        <p className="text-gray-500 text-sm font-mono uppercase tracking-[0.5em] mt-4 animate-terminal-flicker text-center">
+          Protocol: Creative_Development_Standard_V2
+        </p>
+        <div className="text-[10px] font-mono text-gray-600 uppercase tracking-[0.5em] mt-2">
+          <span className="text-indigo-500">SYS_AUTH_HEX:</span> #GL_{browserName}_8B2
+        </div>
+      </div>
+    </div>
+
+    {/* Contenido Principal: Filosofía y Métricas */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
+      <div className="space-y-12">
+        {/* Texto descriptivo accesible y persuasivo */}
+        <p className="text-gray-400 text-xl font-light animate-reveal delay-1 max-w-xl leading-relaxed text-left">
+          En <span className="text-white font-medium">Gravity Labs</span>, entendemos que tu presencia digital es mucho más que una tarjeta de presentación; es el motor de tu negocio. Por eso, no solo escribimos código ni nos limitamos a crear páginas web aisladas. 
+          <br /><br />
+          Construimos ecosistemas digitales vivos que evolucionan contigo. Fusionamos la precisión de la ingeniería con una visión artística para que cada detalle funcione a la perfección y conecte emocionalmente con tus clientes desde el primer segundo.
+        </p>
+        
+        {/* Métricas de Rendimiento Real */}
+        <div className="grid grid-cols-2 gap-8 animate-reveal delay-2">
+          <div className="text-left border-l border-white/10 pl-6">
+            <h4 className="text-3xl font-black text-white mb-2">99.9%</h4>
+            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-mono">Disponibilidad Total</p>
           </div>
-        </section>
+          <div className="text-left border-l border-white/10 pl-6">
+            <h4 className="text-3xl font-black text-white mb-2">450ms</h4>
+            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-mono">Respuesta Instantánea</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Tarjeta de Filosofía Técnica con Efecto Glow */}
+      <div className="glow-border-container group animate-reveal delay-2"> 
+        <div className="glow-border-tracer opacity-40 group-hover:opacity-80 transition-opacity" />
+        <div className="glow-content-wrapper p-14 bg-[#0A0A1B]/60 backdrop-blur-xl">
+          <div className="flex justify-between items-center mb-14">
+            <h3 className="text-xl font-black uppercase tracking-widest flex items-center gap-4">
+              <span className="w-2 h-8 bg-indigo-600 rounded-full" />
+              Filosofía Técnica
+            </h3>
+            <span className="text-[10px] font-mono text-cyan-500 animate-pulse tracking-widest uppercase font-bold">Deep_Scan_Init</span>
+          </div>
+          
+          <ul className="space-y-14">
+            {[
+              {
+                t: "Desarrollo Nativo", 
+                d: "Creamos herramientas a medida que aprovechan toda la potencia de la tecnología actual para una experiencia sin errores ni esperas."
+              },
+              {
+                t: "Marketing de Precisión", 
+                d: "Usamos datos reales para asegurar que cada parte de tu proyecto esté diseñada para atraer clientes y generar resultados."
+              },
+              {
+                t: "Diseño Sensorial", 
+                d: "Interfaces intuitivas y fáciles de usar. Si tus clientes se sienten cómodos navegando, será mucho más sencillo que confíen en ti."
+              }
+            ].map((item, i) => (
+              <li key={i} className="relative pl-14 animate-reveal" style={{ animationDelay: `${0.8 + (i * 0.2)}s` }}>
+                <div className="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_15px_#22d3ee]" />
+                <h4 className="text-white text-lg font-bold mb-3 text-left">{item.t}</h4>
+                <p className="text-[13px] text-gray-500 font-light leading-relaxed text-left">{item.d}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
         {/* Sección de Paquetes - Selección de Trayectoria */}
 <section id="servicios" className="relative z-10 py-40 border-t border-white/5 bg-gradient-to-b from-transparent via-[#080815] to-transparent">
