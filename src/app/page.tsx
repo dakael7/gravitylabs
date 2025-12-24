@@ -161,21 +161,21 @@ export default function Home() {
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                 Auth_Success
               </div>
-              <a href="#servicios" onClick={(e) => handleSmoothScroll(e, 'servicios')} className="hover:text-cyan-400 transition-colors">Services</a>
-              <a href="#proceso" onClick={(e) => handleSmoothScroll(e, 'proceso')} className="hover:text-cyan-400 transition-colors">Process</a>
+              <a href="#servicios" onClick={(e) => handleSmoothScroll(e, 'servicios')} className="hover:text-cyan-400 transition-colors">Servicios</a>
+              <a href="#proceso" onClick={(e) => handleSmoothScroll(e, 'proceso')} className="hover:text-cyan-400 transition-colors">Proceso</a>
               
               <div className="relative" ref={menuRef}>
                 <button 
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   className={`px-10 py-3.5 rounded-full text-[10px] font-black tracking-[0.35em] transition-all border ${isMenuOpen ? 'bg-white text-black border-white' : 'bg-white/5 border-white/10 text-white/90 hover:bg-white/10'}`}
                 >
-                  CONSOLE
+                  CONSOLA
                 </button>
                 {isMenuOpen && (
                   <div className="absolute right-0 mt-5 w-64 bg-[#0a0a15] border border-white/10 rounded-2xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl animate-reveal overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
                     <button className="w-full text-left px-6 py-4 rounded-xl hover:bg-white/5 transition-all group">
-                      <span className="block text-[10px] text-white/80 tracking-[0.2em] group-hover:text-cyan-400 uppercase">Client Access</span>
+                      <span className="block text-[10px] text-white/80 tracking-[0.2em] group-hover:text-cyan-400 uppercase">Acceso al cliente</span>
                     </button>
                     <button className="w-full text-left px-6 py-4 rounded-xl hover:bg-white/5 transition-all group">
                       <span className="block text-[10px] text-white/80 tracking-[0.2em] group-hover:text-cyan-400 uppercase">Project Tracking</span>
@@ -702,7 +702,7 @@ export default function Home() {
             
             <div className="flex flex-col md:flex-row justify-between items-center pt-16 border-t border-white/5 gap-10">
               <div className="text-[10px] font-mono text-gray-600 uppercase tracking-widest text-center md:text-left">
-                © 2025 Gravity Labs • Engineered for the Deep Space • All rights reserved
+                © 2026 Gravity Labs  • Todos los derechos reservados
               </div>
               <div className="flex gap-12 text-[10px] font-mono text-gray-500 uppercase tracking-widest">
                 <span className="hover:text-white cursor-pointer transition-colors">Privacy_Log</span>
