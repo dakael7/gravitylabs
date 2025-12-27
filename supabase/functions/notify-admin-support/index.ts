@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-
+// ... resto del código
 // David: Esta variable la lee del 'secret' que ya configuraste
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
