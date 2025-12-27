@@ -3,17 +3,41 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase'; // Conexión con el núcleo de datos
 
 /**
- * Gravity Labs - Servicio: Cosmos Enterprise (V-1.0)
- * David: La solución integral definitiva. 
- * Estética de lujo tecnológico con luces de barrido RGB en tonos dorados y ámbar.
+ * Gravity Labs - Servicio: Cosmos Enterprise (V-1.0.1)
+ * David: La solución integral definitiva para corporaciones.
+ * UPDATE: Sincronización dinámica de PRECIO desde el núcleo (gravity_services).
  */
 export default function CosmosEnterprise() {
   const [mounted, setMounted] = useState(false);
+  const [price, setPrice] = useState<string>('---'); // Estado para el precio dinámico
 
   useEffect(() => {
     setMounted(true);
+
+    /**
+     * David: Protocolo de sincronización de precio.
+     * Consulta el registro de 'Cosmos Enterprise' para asegurar el estándar de inversión.
+     */
+    const syncPrice = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('gravity_services')
+          .select('precio')
+          .eq('nombre', 'Cosmos Enterprise') // Identificador único en DB
+          .single();
+
+        if (data && !error) {
+          setPrice(data.precio);
+        }
+      } catch (err) {
+        console.error("Error_Price_Sync_Failure", err);
+      }
+    };
+
+    syncPrice();
   }, []);
 
   if (!mounted) return <div className="min-h-screen bg-[#050505]" />;
@@ -52,6 +76,7 @@ export default function CosmosEnterprise() {
         }
 
         @keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes data-flow-gold { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
         
         .animate-reveal { animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
         @keyframes revealUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -91,7 +116,8 @@ export default function CosmosEnterprise() {
               <div className="flex gap-8 pt-6 animate-reveal [animation-delay:0.6s]">
                 <div className="bg-white/[0.03] border border-amber-500/10 p-8 rounded-3xl flex-1 backdrop-blur-xl">
                   <span className="block text-[10px] font-mono text-amber-600 uppercase mb-3 tracking-widest">Inversión Elite</span>
-                  <span className="text-4xl font-black text-white">$6,000</span>
+                  {/* David: Precio dinámico sincronizado */}
+                  <span className="text-4xl font-black text-white">${price}</span>
                 </div>
                 <div className="bg-white/[0.03] border border-white/10 p-8 rounded-3xl flex-1 backdrop-blur-xl">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-3 tracking-widest">Ciclo de Lanzamiento</span>
@@ -100,18 +126,12 @@ export default function CosmosEnterprise() {
               </div>
             </div>
 
-            {/* Visual: El Monolito Cosmos con Luz Perimetral */}
+            {/* Visual: Monolito Cosmos */}
             <div className="relative aspect-square flex items-center justify-center animate-reveal [animation-delay:0.5s]">
-              
-              {/* Resplandor Central */}
               <div className="absolute w-80 h-80 bg-amber-500/10 blur-[100px] rounded-full animate-pulse" />
               
               <div className="relative w-full max-w-[500px] h-[600px] flex items-center justify-center">
-                
-                {/* Monolito Enterprise con Luz RGB Ámbar */}
                 <div className="relative w-80 h-[500px] bg-[#0a0a0a] border-[2px] rounded-[4rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden animate-[float-hero_10s_ease-in-out_infinite,gold-border-flow_8s_linear_infinite] z-20 flex flex-col items-center justify-center p-12">
-                  
-                  {/* Patrón Geométrico Interno */}
                   <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#fbbf24 0.5px, transparent 0.5px)', backgroundSize: '20px 20px' }} />
                   
                   <div className="relative z-10 w-full space-y-12">
@@ -122,7 +142,7 @@ export default function CosmosEnterprise() {
                     
                     <div className="space-y-6">
                       <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                        <div className="h-full w-full bg-gradient-to-r from-amber-500 to-yellow-200 animate-[data-flow_3s_ease-in-out_infinite]" />
+                        <div className="h-full w-full bg-gradient-to-r from-amber-500 to-yellow-200 animate-[data-flow-gold_3s_ease-in-out_infinite]" />
                       </div>
                       <div className="h-1 w-3/4 mx-auto bg-white/5 rounded-full" />
                       <div className="h-1 w-1/2 mx-auto bg-white/5 rounded-full" />
@@ -203,10 +223,13 @@ export default function CosmosEnterprise() {
               
               <div className="pt-8">
                 <Link 
-                  href="/contratacion" 
-                  className="inline-flex items-center gap-6 bg-amber-500 text-black px-16 py-7 rounded-3xl font-black text-sm uppercase tracking-[0.5em] hover:bg-white transition-all transform active:scale-95 shadow-[0_20px_50px_rgba(251,191,36,0.2)]"
+                  href="/uplink?pkg=cosmos" 
+                  className="inline-flex items-center gap-6 bg-amber-500 text-black px-16 py-7 rounded-3xl font-black text-sm uppercase tracking-[0.5em] hover:bg-white transition-all transform active:scale-95 shadow-[0_20px_50px_rgba(251,191,36,0.2)] group"
                 >
-                  DESPLEGAR COSMOS
+                  INICIAR AHORA
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
                 </Link>
               </div>
             </div>
@@ -217,7 +240,7 @@ export default function CosmosEnterprise() {
       {/* Footer */}
       <footer className="py-20 border-t border-white/5 text-center relative z-10">
         <div className="text-[10px] font-mono text-gray-700 uppercase tracking-[1em]">
-          Cosmos Enterprise Division © 2026 // David
+          Cosmos Enterprise Division © 2026 // Authored by David
         </div>
       </footer>
     </main>

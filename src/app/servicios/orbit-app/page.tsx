@@ -3,17 +3,41 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase'; // Conexión con el núcleo de datos
 
 /**
- * Gravity Labs - Detalle de Servicio: Orbit App (V-0.4.1)
- * David: Se eliminaron las marcas de agua de fondo (iOS/ANDROID) por estética minimalista.
- * Se mantiene el sistema de luces RGB perimetrales y el espaciado profesional.
+ * Gravity Labs - Detalle de Servicio: Orbit App (V-0.4.2)
+ * David: Integración de flujo productizado hacia /uplink?pkg=orbit.
+ * UPDATE: Sincronización dinámica de PRECIO desde el núcleo (gravity_services).
  */
 export default function OrbitApp() {
   const [mounted, setMounted] = useState(false);
+  const [price, setPrice] = useState<string>('---'); // Estado para el precio dinámico
 
   useEffect(() => {
     setMounted(true);
+
+    /**
+     * David: Protocolo de sincronización de precio.
+     * Consulta el registro de 'Orbit App' para asegurar consistencia con el Admin.
+     */
+    const syncPrice = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('gravity_services')
+          .select('precio')
+          .eq('nombre', 'Orbit App') // Identificador único en DB
+          .single();
+
+        if (data && !error) {
+          setPrice(data.precio);
+        }
+      } catch (err) {
+        console.error("Error_Price_Sync_Failure", err);
+      }
+    };
+
+    syncPrice();
   }, []);
 
   if (!mounted) return <div className="min-h-screen bg-[#080510]" />;
@@ -47,7 +71,6 @@ export default function OrbitApp() {
       <style>{`
         @keyframes float-mobile { 0%, 100% { transform: translateY(0) rotate3d(1, 1, 1, 0deg); } 50% { transform: translateY(-20px) rotate3d(1, 1, 1, 1deg); } }
         
-        /* Animación de borde RGB perimetral refinada */
         @keyframes rgb-border-flow {
           0% { border-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.2); }
           33% { border-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); }
@@ -98,7 +121,8 @@ export default function OrbitApp() {
               <div className="flex gap-6 pt-6 animate-reveal [animation-delay:0.6s]">
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Inversión Base</span>
-                  <span className="text-3xl font-black text-purple-400">$3,500</span>
+                  {/* David: Precio sincronizado */}
+                  <span className="text-3xl font-black text-purple-400">${price}</span>
                 </div>
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Ciclo de Obra</span>
@@ -107,25 +131,15 @@ export default function OrbitApp() {
               </div>
             </div>
 
-            {/* Visual: Smartphone con luces RGB refinadas */}
+            {/* Visual: Smartphone con luces RGB */}
             <div className="relative aspect-square flex items-center justify-center animate-reveal [animation-delay:0.5s]">
-              
-              {/* Aura de fondo sutil */}
               <div className="absolute w-[60%] h-[60%] bg-purple-600/5 blur-[120px] rounded-full" />
-              
-              {/* Luces orbitales dinámicas */}
               <div className="absolute w-1 h-1 bg-purple-400/50 rounded-full blur-[1px] animate-[orbit-lights_5s_linear_infinite]" />
               <div className="absolute w-1 h-1 bg-blue-400/50 rounded-full blur-[1px] animate-[orbit-lights_8s_linear_infinite_reverse]" />
               
               <div className="relative w-full max-w-[450px] h-[600px] flex items-center justify-center">
-                
-                {/* Smartphone con borde RGB fluido */}
                 <div className="relative w-64 h-[520px] bg-[#050505] border-[2px] rounded-[3rem] shadow-2xl overflow-hidden animate-[float-mobile_8s_ease-in-out_infinite,rgb-border-flow_6s_linear_infinite] z-20">
-                  
-                  {/* Notch discreto */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-[#0a0a0a] rounded-b-2xl z-30" />
-                  
-                  {/* Pantalla App Interna */}
                   <div className="p-8 pt-16 space-y-8">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-purple-500/10 rounded-2xl border border-purple-500/20 flex items-center justify-center">
@@ -136,21 +150,17 @@ export default function OrbitApp() {
                         <div className="h-1.5 w-16 bg-white/5 rounded-full" />
                       </div>
                     </div>
-                    
                     <div className="h-44 w-full bg-gradient-to-br from-purple-600/10 to-transparent rounded-[2rem] border border-white/5 relative overflow-hidden" />
-
                     <div className="space-y-3">
                        <div className="h-1.5 w-full bg-white/5 rounded-full" />
                        <div className="h-1.5 w-3/4 bg-white/5 rounded-full" />
                     </div>
-
                     <div className="w-full bg-purple-600/90 py-4 rounded-2xl flex items-center justify-center text-[9px] font-black uppercase tracking-[0.2em] hover:bg-purple-500 transition-all active:scale-95">
                       Iniciar_Sincronía
                     </div>
                   </div>
                 </div>
 
-                {/* Widgets flotantes limpios */}
                 <div className="absolute -top-4 -right-6 w-40 h-20 bg-[#0a0a14]/80 border border-white/5 rounded-3xl p-5 backdrop-blur-xl z-30 animate-bounce shadow-xl">
                    <div className="flex justify-between items-center mb-3">
                       <span className="text-[7px] font-mono text-purple-400 uppercase tracking-widest font-bold">Notificación</span>
@@ -216,10 +226,13 @@ export default function OrbitApp() {
               </p>
               <div className="pt-6">
                 <Link 
-                  href="/contratacion" 
-                  className="inline-flex items-center gap-6 bg-white text-black px-14 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] hover:bg-purple-600 hover:text-white transition-all transform active:scale-95 shadow-2xl shadow-purple-500/20"
+                  href="/uplink?pkg=orbit" 
+                  className="inline-flex items-center gap-6 bg-white text-black px-14 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] hover:bg-purple-600 hover:text-white transition-all transform active:scale-95 shadow-2xl shadow-purple-500/20 group"
                 >
-                  INICIAR DESARROLLO
+                  INICIAR AHORA
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
                 </Link>
               </div>
             </div>
@@ -230,7 +243,7 @@ export default function OrbitApp() {
       {/* Footer */}
       <footer className="py-20 border-t border-white/5 text-center relative z-10">
         <div className="text-[9px] font-mono text-gray-700 uppercase tracking-[0.8em]">
-          Unidad Móvil Gravity Labs © 2026 // David
+          Unidad Móvil Gravity Labs © 2026 // Authored by David
         </div>
       </footer>
     </main>

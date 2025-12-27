@@ -3,17 +3,42 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase'; // Importación de la instancia de Supabase
 
 /**
  * Gravity Labs - Service Detail: Nebula Landing
  * David: Componente optimizado con flujo de conversión.
- * Se modificó únicamente el contenido de las tarjetas para resaltar personalización.
+ * UPDATE: Sincronización dinámica de PRECIO desde el núcleo (gravity_services).
+ * El resto del contenido permanece estático según instrucciones.
  */
 export default function NebulaLanding() {
   const [mounted, setMounted] = useState(false);
+  const [price, setPrice] = useState<string>('---'); // Estado para el precio dinámico
 
   useEffect(() => {
     setMounted(true);
+    
+    /**
+     * David: Protocolo de sincronización de precio.
+     * Busca en la tabla de servicios el registro correspondiente a Nebula.
+     */
+    const syncPrice = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('gravity_services')
+          .select('precio')
+          .eq('nombre', 'Nebula Landing') // Identificador único en el núcleo
+          .single();
+
+        if (data && !error) {
+          setPrice(data.precio);
+        }
+      } catch (err) {
+        console.error("Error_Price_Sync_Failure", err);
+      }
+    };
+
+    syncPrice();
   }, []);
 
   if (!mounted) return <div className="min-h-screen bg-[#020205]" />;
@@ -89,7 +114,8 @@ export default function NebulaLanding() {
               <div className="flex gap-6 pt-6 animate-reveal [animation-delay:0.6s]">
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Inversión</span>
-                  <span className="text-3xl font-black">$499</span>
+                  {/* David: Precio sincronizado */}
+                  <span className="text-3xl font-black">${price}</span>
                 </div>
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Entrega Est.</span>
@@ -201,10 +227,10 @@ export default function NebulaLanding() {
 
               <div className="pt-8">
                 <Link 
-                  href="/contratacion" 
+                  href="/uplink?pkg=nebula" 
                   className="inline-flex items-center gap-6 bg-white text-black px-10 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.3em] hover:bg-cyan-500 hover:text-white transition-all transform active:scale-95 shadow-[0_20px_40px_rgba(255,255,255,0.1)] group"
                 >
-                  COMENZAR AHORA
+                  INICIAR AHORA
                   <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>

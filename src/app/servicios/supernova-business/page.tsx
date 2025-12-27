@@ -3,17 +3,41 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase'; // Instancia de conexión con el núcleo
 
 /**
- * Gravity Labs - Service Detail: Supernova Business (V-0.2)
+ * Gravity Labs - Service Detail: Supernova Business (V-0.2.2)
  * David: Componente de alta fidelidad con ilustración de Matriz de Datos Orbital.
- * Implementa animaciones de escaneo, rebote de datos y órbitas complejas.
+ * UPDATE: Sincronización dinámica de PRECIO desde el núcleo (gravity_services).
  */
 export default function SupernovaBusiness() {
   const [mounted, setMounted] = useState(false);
+  const [price, setPrice] = useState<string>('---'); // Estado para el precio dinámico
 
   useEffect(() => {
     setMounted(true);
+
+    /**
+     * David: Protocolo de sincronización de precio.
+     * Busca el registro 'Supernova Business' para reflejar cambios del admin.
+     */
+    const syncPrice = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('gravity_services')
+          .select('precio')
+          .eq('nombre', 'Supernova Business') // Identificador único en el núcleo
+          .single();
+
+        if (data && !error) {
+          setPrice(data.precio);
+        }
+      } catch (err) {
+        console.error("Error_Price_Sync_Failure", err);
+      }
+    };
+
+    syncPrice();
   }, []);
 
   if (!mounted) return <div className="min-h-screen bg-[#05050b]" />;
@@ -94,7 +118,8 @@ export default function SupernovaBusiness() {
               <div className="flex gap-6 pt-6 animate-reveal [animation-delay:0.6s]">
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Inversión</span>
-                  <span className="text-3xl font-black text-indigo-400">$1,200</span>
+                  {/* David: Precio sincronizado */}
+                  <span className="text-3xl font-black text-indigo-400">${price}</span>
                 </div>
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Despliegue</span>
@@ -103,32 +128,17 @@ export default function SupernovaBusiness() {
               </div>
             </div>
 
-            {/* Visual: Matriz de Datos Orbital (Nueva Ilustración Dinámica) */}
+            {/* Visual: Matriz de Datos Orbital */}
             <div className="relative aspect-square animate-reveal [animation-delay:0.5s] flex items-center justify-center scale-90 lg:scale-100">
-              
-              {/* Anillos de energía rotativos */}
               <div className="absolute w-[110%] h-[110%] border border-indigo-500/10 rounded-full animate-[spin_100s_linear_infinite]" />
               <div className="absolute w-[90%] h-[90%] border border-cyan-500/10 rounded-full animate-[spin_60s_linear_infinite_reverse]" />
               
-              {/* El Núcleo del Sistema */}
               <div className="relative w-72 h-72 lg:w-96 lg:h-96">
-                
-                {/* Efecto de Luces y Glow central */}
                 <div className="absolute inset-0 bg-indigo-600/20 blur-[120px] rounded-full animate-pulse" />
-                
-                {/* La Matriz (Contenedor Principal) */}
                 <div className="absolute inset-0 bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl group hover:border-indigo-500/40 transition-colors duration-700">
-                  
-                  {/* Líneas de Escaneo */}
                   <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(99,102,241,0.1),transparent)] h-24 w-full -top-24 animate-[scan_4s_linear_infinite]" />
-
-                  {/* Grid de Datos */}
-                  <div className="absolute inset-0 opacity-15" 
-                       style={{ backgroundImage: 'radial-gradient(circle, #4f46e5 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-
-                  {/* Elementos Flotantes */}
+                  <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(circle, #4f46e5 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
                   <div className="relative h-full w-full p-8 flex flex-col justify-between z-10">
-                    
                     <div className="flex justify-between items-start">
                       <div className="space-y-1">
                         <div className="h-1 w-12 bg-indigo-500 rounded-full" />
@@ -138,19 +148,11 @@ export default function SupernovaBusiness() {
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-ping" />
                       </div>
                     </div>
-
-                    {/* Centro: Visualización de Carga Reactiva */}
                     <div className="flex items-end justify-center gap-1.5 h-32">
                       {[...Array(14)].map((_, i) => (
-                        <div 
-                          key={i}
-                          className="w-2 bg-gradient-to-t from-indigo-600/80 to-cyan-400 rounded-full animate-[bounce_2s_ease-in-out_infinite]"
-                          style={{ height: `${Math.random() * 80 + 20}%`, animationDelay: `${i * 0.1}s` }}
-                        />
+                        <div key={i} className="w-2 bg-gradient-to-t from-indigo-600/80 to-cyan-400 rounded-full animate-[bounce_2s_ease-in-out_infinite]" style={{ height: `${Math.random() * 80 + 20}%`, animationDelay: `${i * 0.1}s` }} />
                       ))}
                     </div>
-
-                    {/* Panel de Status */}
                     <div className="bg-black/40 border border-white/10 p-4 rounded-xl backdrop-blur-md">
                       <div className="flex justify-between mb-2">
                         <span className="text-[8px] font-mono text-gray-500 uppercase">Uplink_Encryption</span>
@@ -162,14 +164,11 @@ export default function SupernovaBusiness() {
                     </div>
                   </div>
                 </div>
-
-                {/* Widgets Flotantes */}
                 <div className="absolute -top-8 -right-8 w-28 h-28 bg-[#05050b] border border-white/10 rounded-2xl p-4 animate-[float-complex_6s_ease-in-out_infinite] backdrop-blur-xl z-20 flex flex-col justify-center gap-3">
                     <div className="h-1 w-2/3 bg-indigo-500 rounded-full" />
                     <div className="h-1 w-full bg-white/10 rounded-full" />
                     <div className="h-1 w-1/2 bg-white/10 rounded-full" />
                 </div>
-
                 <div className="absolute -bottom-10 -left-10 w-36 h-24 bg-[#05050b] border border-indigo-500/30 rounded-2xl p-5 animate-[float-complex_8s_ease-in-out_infinite_reverse] backdrop-blur-xl z-20">
                    <div className="text-[9px] font-mono text-indigo-400 mb-3 tracking-tighter">DATA_SYNCHRONIZATION</div>
                    <div className="flex gap-1.5 h-6">
@@ -246,10 +245,10 @@ export default function SupernovaBusiness() {
 
               <div className="pt-8">
                 <Link 
-                  href="/contratacion" 
+                  href="/uplink?pkg=supernova" 
                   className="inline-flex items-center gap-6 bg-white text-black px-12 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.3em] hover:bg-indigo-600 hover:text-white transition-all transform active:scale-95 shadow-[0_20px_40px_rgba(79,70,229,0.2)] group"
                 >
-                  SOLICITAR MISIÓN
+                  INICIAR AHORA
                   <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>

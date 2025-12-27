@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useServices } from '@/hooks/useServices';
 
 /**
  * Gravity Labs - High Fidelity Restoration (Enhanced Edition)
@@ -9,6 +11,7 @@ import Image from 'next/image';
  * y garantizar una estructura simétrica en todos los bloques de contenido.
  */
 export default function Home() {
+  const { getService, loading } = useServices();
   const [mounted, setMounted] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [browserName, setBrowserName] = useState("USER");
@@ -66,7 +69,7 @@ export default function Home() {
       titulo: "Arquitectura de Ecosistemas Web",
       subtitulo: "Desarrollo basado en componentes de alto rendimiento y escalabilidad atómica.",
       paquetes: [
-        { nombre: "Nebula Landing", precio: "$499", desc: "Monopágina de alto impacto optimizada para conversiones rápidas y SEO técnico." },
+        { nombre: "Nebula Landing", precio: "$99.95", desc: "Monopágina de alto impacto optimizada para conversiones rápidas y SEO técnico." },
         { nombre: "Supernova Business", precio: "$1,200", desc: "Arquitectura corporativa completa con CMS headless y gestión dinámica de contenido." },
         { nombre: "Galactic E-Commerce", precio: "$2,500+", desc: "Infraestructura comercial robusta con lógica de inventario global y seguridad de nivel bancario." }
       ]
@@ -173,18 +176,29 @@ export default function Home() {
                 </button>
                 {isMenuOpen && (
                   <div className="absolute right-0 mt-5 w-64 bg-[#0a0a15] border border-white/10 rounded-2xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl animate-reveal overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
-                    <button className="w-full text-left px-6 py-4 rounded-xl hover:bg-white/5 transition-all group">
-                      <span className="block text-[10px] text-white/80 tracking-[0.2em] group-hover:text-cyan-400 uppercase">Acceso al cliente</span>
-                    </button>
-                    <button className="w-full text-left px-6 py-4 rounded-xl hover:bg-white/5 transition-all group">
-                      <span className="block text-[10px] text-white/80 tracking-[0.2em] group-hover:text-cyan-400 uppercase">Project Tracking</span>
-                    </button>
-                    <div className="h-[1px] bg-white/5 my-2 mx-4" />
-                    <button className="w-full text-left px-6 py-4 rounded-xl hover:bg-white/5 transition-all group">
-                      <span className="block text-[10px] text-gray-600 tracking-[0.25em] group-hover:text-indigo-400 font-mono uppercase">Sys_Log_V2.0</span>
-                    </button>
-                  </div>
+  <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
+  
+  {/* David: Redirección configurada a la ruta del formulario (/uplink) */}
+  <Link href="/uplink" className="block w-full text-left px-6 py-4 rounded-xl hover:bg-white/5 transition-all group">
+    <span className="block text-[10px] text-white/80 tracking-[0.2em] group-hover:text-cyan-400 uppercase">
+      Acceso al cliente
+    </span>
+  </Link>
+
+  <button className="w-full text-left px-6 py-4 rounded-xl hover:bg-white/5 transition-all group">
+    <span className="block text-[10px] text-white/80 tracking-[0.2em] group-hover:text-cyan-400 uppercase">
+      Project Tracking
+    </span>
+  </button>
+  
+  <div className="h-[1px] bg-white/5 my-2 mx-4" />
+  
+  <button className="w-full text-left px-6 py-4 rounded-xl hover:bg-white/5 transition-all group">
+    <span className="block text-[10px] text-gray-600 tracking-[0.25em] group-hover:text-indigo-400 font-mono uppercase">
+      Sys_Log_V2.0
+    </span>
+  </button>
+</div>
                 )}
               </div>
             </div>
@@ -340,7 +354,7 @@ export default function Home() {
   </div>
 </section>
 
-        {/* Sección de Paquetes - Selección de Trayectoria */}
+{/* Sección de Paquetes - Selección de Trayectoria */}
 <section id="servicios" className="relative z-10 py-40 border-t border-white/5 bg-gradient-to-b from-transparent via-[#080815] to-transparent">
   <div className="max-w-7xl mx-auto px-8 relative z-10">
     
@@ -365,26 +379,26 @@ export default function Home() {
         paquetes: [
           {
             nombre: "Nebula Landing",
-            slug: "nebula-landing", // Identificador para la ruta de detalles
+            slug: "nebula-landing", 
             version: "V-0.0",
-            desc: "La opción ideal para empezar rápido. Creamos una página de aterrizaje enfocada en un solo objetivo: convertir tus visitas en clientes. Es ligera, carga al instante y está optimizada para que te encuentren fácilmente en Google.",
-            precio: "$499",
+            desc: "La opción ideal para empezar rápido. Creamos una página de aterrizaje enfocada en un solo objetivo: convertir tus visitas en clientes.",
+            precio: "97",
             status: "LANZAMIENTO_INMEDIATO"
           },
           {
             nombre: "Supernova Business",
-            slug: "supernova-business", // Identificador para la ruta de detalles
+            slug: "supernova-business",
             version: "V-0.1",
-            desc: "Tu casa digital completa. Una web profesional con varias secciones (Inicio, Nosotros, Servicios) y un sistema sencillo para que tú mismo puedas cambiar textos o imágenes sin depender de nadie. Control total y autonomía para tu marca.",
-            precio: "$1,200",
+            desc: "Tu casa digital completa. Una web profesional con varias secciones y un sistema sencillo para que tú mismo gestiones tu marca.",
+            precio: "389",
             status: "CONTROL_TOTAL"
           },
           {
             nombre: "Galactic E-Commerce",
-            slug: "galactic-ecommerce", // Identificador para la ruta de detalles
+            slug: "galactic-ecommerce",
             version: "V-0.2",
-            desc: "Tu tienda abierta al mundo las 24 horas. Construimos una plataforma de ventas robusta y segura donde tus clientes pueden comprar con confianza. Manejo de inventario, pagos automáticos y una experiencia de compra fluida y profesional.",
-            precio: "$2,500+",
+            desc: "Tu tienda abierta al mundo las 24 horas. Construimos una plataforma de ventas robusta y segura para comprar con confianza.",
+            precio: "990",
             status: "VENTAS_ACTIVAS"
           }
         ]
@@ -395,26 +409,26 @@ export default function Home() {
         paquetes: [
           {
             nombre: "Orbit App",
-            slug: "orbit-app", // Identificador para la ruta de detalles
+            slug: "orbit-app",
             version: "V-1.0",
-            desc: "Tu negocio en el bolsillo de tus clientes. Una aplicación móvil enfocada en la facilidad de uso y la elegancia. Perfecta para ofrecer servicios directos, turnos o catálogos digitales con una experiencia rápida y moderna.",
-            precio: "$2,000",
+            desc: "Tu negocio en el bolsillo de tus clientes. Una aplicación móvil enfocada en la facilidad de uso y la elegancia moderna.",
+            precio: "590",
             status: "EXPERIENCIA_MOVIL"
           },
           {
             nombre: "Titanium System",
-            slug: "titanium-system", // Identificador para la ruta de detalles
+            slug: "titanium-system",
             version: "V-1.1",
-            desc: "Una herramienta potente para tu empresa. Aplicaciones con funciones avanzadas como notificaciones al celular, mapas en tiempo real o sistemas de usuarios. Diseñada para negocios que necesitan una app que trabaje duro por ellos.",
-            precio: "$4,500",
+            desc: "Una herramienta potente para tu empresa. Aplicaciones con funciones avanzadas como notificaciones y mapas en tiempo real.",
+            precio: "1240",
             status: "ALTO_RENDIMIENTO"
           },
           {
             nombre: "Cosmos Enterprise",
-            slug: "cosmos-enterprise", // Identificador para la ruta de detalles
+            slug: "cosmos-enterprise",
             version: "V-1.2",
-            desc: "La solución definitiva a gran escala. Creamos un ecosistema completo que funciona perfecto tanto en iPhone como en Android. Incluye la máxima seguridad para tus datos y una estructura preparada para miles de usuarios simultáneos.",
-            precio: "$8,000+",
+            desc: "La solución definitiva a gran escala. Ecosistema completo preparado para miles de usuarios simultáneos y máxima seguridad.",
+            precio: "2390",
             status: "ESTÁNDAR_GLOBAL"
           }
         ]
@@ -431,49 +445,64 @@ export default function Home() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {cat.paquetes.map((paquete, pIdx) => (
-            <div key={pIdx} className="glow-border-container group animate-reveal" style={{ animationDelay: `${0.3 + (pIdx * 0.2)}s` }}>
-              <div className="glow-border-tracer opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-              <div className="glow-content-wrapper p-12 h-full flex flex-col glass-card border-none bg-[#0A0A1B]/60 backdrop-blur-xl">
-                
-                <div className="flex justify-between items-start mb-8">
-                  <div className="flex flex-col gap-1 text-left">
-                    <h4 className="text-2xl font-black tracking-tight group-hover:text-cyan-400 transition-colors duration-500">
-                      {paquete.nombre}
-                    </h4>
-                    <span className="text-[10px] font-mono text-cyan-500/80 tracking-[0.2em] uppercase font-bold">
-                      {paquete.status}
+          {cat.paquetes.map((paquete, pIdx) => {
+            // David: Buscamos el servicio en la DB
+            const dbService = getService(paquete.slug);
+            
+            /** * David: Lógica de Error Forzada
+             * Si ya no está cargando y dbService no existe, lanzamos error visual.
+             */
+            const precioMostrado = !loading && !dbService ? "ERR_SYNC" : (dbService ? dbService.precio : paquete.precio);
+            const descMostrada = !loading && !dbService ? "[SISTEMA]: Error de sincronización. No se encontró el servicio en la base de datos." : (dbService ? dbService.descripcion : paquete.desc);
+
+            return (
+              <div key={pIdx} className="glow-border-container group animate-reveal" style={{ animationDelay: `${0.3 + (pIdx * 0.2)}s` }}>
+                <div className="glow-border-tracer opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                <div className="glow-content-wrapper p-12 h-full flex flex-col glass-card border-none bg-[#0A0A1B]/60 backdrop-blur-xl">
+                  
+                  <div className="flex justify-between items-start mb-8">
+                    <div className="flex flex-col gap-1 text-left">
+                      <h4 className="text-2xl font-black tracking-tight group-hover:text-cyan-400 transition-colors duration-500">
+                        {paquete.nombre}
+                      </h4>
+                      <span className={`text-[10px] font-mono tracking-[0.2em] uppercase font-bold ${!loading && !dbService ? 'text-red-500' : 'text-cyan-500/80'}`}>
+                        {!loading && !dbService ? 'DATA_NOT_FOUND' : paquete.status}
+                      </span>
+                    </div>
+                    <span className="text-[9px] font-mono text-gray-600 border border-white/10 px-2 py-1 rounded">
+                      {paquete.version}
                     </span>
                   </div>
-                  <span className="text-[9px] font-mono text-gray-600 border border-white/10 px-2 py-1 rounded">
-                    {paquete.version}
-                  </span>
-                </div>
 
-                <p className="text-gray-400 text-[14px] font-light mb-12 flex-grow leading-relaxed text-left">
-                  {paquete.desc}
-                </p>
+                  <p className={`text-[14px] font-light mb-12 flex-grow leading-relaxed text-left ${!loading && !dbService ? 'text-red-400/80 font-mono' : 'text-gray-400'}`}>
+                    {descMostrada}
+                  </p>
 
-                <div className="mt-auto pt-10 border-t border-white/10 flex items-center justify-between">
-                  <div className="flex flex-col text-left">
-                    <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Inversión desde</span>
-                    <span className="text-4xl font-black text-white">{paquete.precio}</span>
+                  <div className="mt-auto pt-10 border-t border-white/10 flex items-center justify-between">
+                    <div className="flex flex-col text-left">
+                      <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Inversión desde</span>
+                      <div className="flex items-baseline">
+                        <span className="text-xl font-bold text-white/70 mr-1">$</span>
+                        <span className={`text-4xl font-black ${!loading && !dbService ? 'text-red-500 animate-pulse' : 'text-white'}`}>
+                          {loading ? '...' : precioMostrado}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-cyan-500/50 transition-all duration-500">
+                      <div className={`w-2 h-2 rounded-full ${!loading && !dbService ? 'bg-red-500' : 'bg-cyan-400'} opacity-20 group-hover:opacity-100 animate-pulse`} />
+                    </div>
                   </div>
-                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-cyan-500/50 transition-all duration-500">
-                    <div className="w-2 h-2 rounded-full bg-cyan-400 opacity-20 group-hover:opacity-100 animate-pulse" />
-                  </div>
-                </div>
 
-                {/* Acción de redirección a vista detallada del servicio */}
-                <button 
-                  onClick={() => window.open(`/servicios/${paquete.slug}`, '_blank')} 
-                  className="w-full mt-10 py-5 rounded-2xl bg-white/5 border border-white/10 text-[11px] font-black uppercase tracking-[0.35em] hover:bg-white hover:text-black transition-all duration-500 transform active:scale-95"
-                >
-                  Iniciar Misión
-                </button>
+                  <button 
+                    onClick={() => window.open(`/servicios/${paquete.slug}`, '_blank')} 
+                    className="w-full mt-10 py-5 rounded-2xl bg-white/5 border border-white/10 text-[11px] font-black uppercase tracking-[0.35em] hover:bg-white hover:text-black transition-all duration-500 transform active:scale-95"
+                  >
+                    Iniciar Misión
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     ))}

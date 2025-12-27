@@ -3,17 +3,41 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase'; // Conexión con el núcleo de datos
 
 /**
- * Gravity Labs - Detalle de Servicio: Titanium System (V-0.5)
- * David: Infraestructura de Backend, Bases de Datos y Seguridad.
- * Se aplicó una estética industrial-tecnológica con luces RGB de barrido sutil.
+ * Gravity Labs - Detalle de Servicio: Titanium System (V-0.5.1)
+ * David: Infraestructura de Backend y Seguridad.
+ * UPDATE: Sincronización dinámica de PRECIO desde el núcleo (gravity_services).
  */
 export default function TitaniumSystem() {
   const [mounted, setMounted] = useState(false);
+  const [price, setPrice] = useState<string>('---'); // Estado para el precio dinámico
 
   useEffect(() => {
     setMounted(true);
+
+    /**
+     * David: Protocolo de sincronización de precio.
+     * Consulta el registro de 'Titanium System' en el inventario.
+     */
+    const syncPrice = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('gravity_services')
+          .select('precio')
+          .eq('nombre', 'Titanium System') // Identificador único en DB
+          .single();
+
+        if (data && !error) {
+          setPrice(data.precio);
+        }
+      } catch (err) {
+        console.error("Error_Price_Sync_Failure", err);
+      }
+    };
+
+    syncPrice();
   }, []);
 
   if (!mounted) return <div className="min-h-screen bg-[#05070a]" />;
@@ -85,7 +109,8 @@ export default function TitaniumSystem() {
               <div className="flex gap-6 pt-6 animate-reveal [animation-delay:0.6s]">
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Inversión Base</span>
-                  <span className="text-3xl font-black text-cyan-400">$4,000</span>
+                  {/* David: Precio dinámico sincronizado */}
+                  <span className="text-3xl font-black text-cyan-400">${price}</span>
                 </div>
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Despliegue</span>
@@ -94,15 +119,12 @@ export default function TitaniumSystem() {
               </div>
             </div>
 
-            {/* Visual: Núcleo de Titanium con luces de barrido */}
+            {/* Visual: Núcleo de Titanium */}
             <div className="relative aspect-square flex items-center justify-center animate-reveal [animation-delay:0.5s]">
-              
               <div className="relative w-full max-w-[450px] h-[500px] flex items-center justify-center">
                 
                 {/* Estructura Central de Servidor */}
                 <div className="relative w-72 h-96 bg-[#0a0f14] border-[2px] rounded-3xl shadow-2xl overflow-hidden animate-[titanium-border-flow_8s_linear_infinite] z-20 flex flex-col p-8">
-                  
-                  {/* Indicadores de estado */}
                   <div className="flex justify-between items-center mb-10">
                     <div className="flex gap-1.5">
                       <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
@@ -139,7 +161,7 @@ export default function TitaniumSystem() {
                   </div>
                 </div>
 
-                {/* Paneles Flotantes de Seguridad */}
+                {/* Paneles Flotantes */}
                 <div className="absolute top-10 -right-8 w-48 bg-[#0d141b]/90 border border-white/5 rounded-2xl p-6 backdrop-blur-2xl z-30 shadow-2xl">
                    <div className="text-[8px] font-mono text-gray-500 mb-3 uppercase tracking-widest">Firewall_Status</div>
                    <div className="flex items-center gap-3">
@@ -207,10 +229,13 @@ export default function TitaniumSystem() {
               </p>
               <div className="pt-6">
                 <Link 
-                  href="/contratacion" 
-                  className="inline-flex items-center gap-6 bg-white text-black px-14 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] hover:bg-cyan-500 hover:text-white transition-all transform active:scale-95 shadow-2xl shadow-cyan-500/20"
+                  href="/uplink?pkg=titanium" 
+                  className="inline-flex items-center gap-6 bg-white text-black px-14 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] hover:bg-cyan-500 hover:text-white transition-all transform active:scale-95 shadow-2xl shadow-cyan-500/20 group"
                 >
-                  SOLICITAR INFRAESTRUCTURA
+                  INICIAR AHORA
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
                 </Link>
               </div>
             </div>
@@ -221,7 +246,7 @@ export default function TitaniumSystem() {
       {/* Footer */}
       <footer className="py-20 border-t border-white/5 text-center relative z-10">
         <div className="text-[9px] font-mono text-gray-700 uppercase tracking-[0.8em]">
-          Titanium Core Unit © 2026 // David
+          Titanium Core Unit © 2026 // Authored by David
         </div>
       </footer>
     </main>

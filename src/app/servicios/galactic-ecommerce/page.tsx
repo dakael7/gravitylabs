@@ -3,17 +3,41 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase'; // Conexión con el núcleo de datos
 
 /**
- * Gravity Labs - Service Detail: Galactic E-Commerce (V-0.3)
+ * Gravity Labs - Service Detail: Galactic E-Commerce (V-0.3.1)
  * David: Versión en español con espaciado optimizado.
- * Se ajustaron los contenedores para evitar desbordamiento de botones.
+ * UPDATE: Sincronización dinámica de PRECIO desde el núcleo (gravity_services).
  */
 export default function GalacticEcommerce() {
   const [mounted, setMounted] = useState(false);
+  const [price, setPrice] = useState<string>('---'); // Estado para el precio dinámico
 
   useEffect(() => {
     setMounted(true);
+
+    /**
+     * David: Protocolo de sincronización de precio.
+     * Consulta el registro de Galactic E-Commerce en el inventario de servicios.
+     */
+    const syncPrice = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('gravity_services')
+          .select('precio')
+          .eq('nombre', 'Galactic E-Commerce') // Identificador único en DB
+          .single();
+
+        if (data && !error) {
+          setPrice(data.precio);
+        }
+      } catch (err) {
+        console.error("Error_Price_Sync_Failure", err);
+      }
+    };
+
+    syncPrice();
   }, []);
 
   if (!mounted) return <div className="min-h-screen bg-[#030308]" />;
@@ -86,7 +110,8 @@ export default function GalacticEcommerce() {
               <div className="flex gap-6 pt-6 animate-reveal [animation-delay:0.6s]">
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Inversión Base</span>
-                  <span className="text-3xl font-black text-emerald-400">$2,400</span>
+                  {/* David: Precio sincronizado dinámicamente */}
+                  <span className="text-3xl font-black text-emerald-400">${price}</span>
                 </div>
                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex-1 backdrop-blur-md">
                   <span className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Ciclo de Obra</span>
@@ -101,7 +126,7 @@ export default function GalacticEcommerce() {
               
               <div className="relative w-full max-w-[450px] h-[550px] flex items-center justify-center">
                 
-                {/* Tarjeta de Producto - Espaciado Mejorado */}
+                {/* Tarjeta de Producto */}
                 <div className="absolute top-0 right-4 w-[280px] h-auto bg-[#07070F] border border-white/10 rounded-[2.5rem] p-6 shadow-2xl z-30 animate-[coin-float_8s_ease-in-out_infinite] backdrop-blur-md">
                   <div className="w-full h-40 bg-gradient-to-br from-emerald-500/30 to-blue-600/20 rounded-3xl mb-5 relative overflow-hidden flex items-center justify-center">
                     <div className="absolute top-3 right-3 px-2 py-1 bg-emerald-500 text-[8px] font-black rounded-md text-black uppercase">NUEVO</div>
@@ -115,7 +140,6 @@ export default function GalacticEcommerce() {
                     <div className="flex gap-2 pt-1">
                       {[...Array(3)].map((_, i) => <div key={i} className="w-9 h-9 rounded-xl bg-white/5 border border-white/10" />)}
                     </div>
-                    {/* Botón con padding seguro */}
                     <div className="w-full bg-emerald-500 py-4 rounded-2xl flex items-center justify-center text-[9px] font-black tracking-[0.2em] uppercase text-black mt-2 cursor-pointer hover:bg-emerald-400 transition-all active:scale-95">
                       Añadir al Carrito
                     </div>
@@ -132,7 +156,7 @@ export default function GalacticEcommerce() {
                   ))}
                 </div>
 
-                {/* Panel de Pago - Ajustado para evitar salida de botones */}
+                {/* Panel de Pago */}
                 <div className="absolute bottom-10 left-4 w-[300px] h-auto bg-[#0A0A1F]/90 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-8 z-20 -rotate-3 shadow-2xl">
                   <div className="flex justify-between items-center mb-6">
                     <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">Pago_Seguro</span>
@@ -216,10 +240,13 @@ export default function GalacticEcommerce() {
               </p>
               <div className="pt-6">
                 <Link 
-                  href="/contratacion" 
-                  className="inline-flex items-center gap-6 bg-white text-black px-14 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] hover:bg-emerald-500 hover:text-white transition-all transform active:scale-95 shadow-2xl shadow-emerald-500/20"
+                  href="/uplink?pkg=galactic" 
+                  className="inline-flex items-center gap-6 bg-white text-black px-14 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] hover:bg-emerald-500 hover:text-white transition-all transform active:scale-95 shadow-2xl shadow-emerald-500/20 group"
                 >
-                  DESPLEGAR TIENDA
+                  INICIAR AHORA
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
                 </Link>
               </div>
               <p className="text-[10px] font-mono text-gray-600 uppercase tracking-widest pt-8">
@@ -233,7 +260,7 @@ export default function GalacticEcommerce() {
       {/* Footer */}
       <footer className="py-20 border-t border-white/5 text-center relative z-10">
         <div className="text-[9px] font-mono text-gray-700 uppercase tracking-[0.8em]">
-          Gravity Labs Deployment System © 2026 // David
+          Gravity Labs Deployment System © 2026 // Authored by David
         </div>
       </footer>
     </main>
