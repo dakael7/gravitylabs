@@ -5,9 +5,9 @@ import { supabase } from '../../../lib/supabase';
 import Image from 'next/image';
 
 /**
- * Gravity Labs - CORE ADMINISTRATION (Red Protocol) v4.9.2
- * David: Consola con protocolo de presencia, logs PERSISTENTES y auditoría de cambios.
- * UPDATE: Unificación de lógica de proyectos para visualización y modificación global.
+ * Gravity Labs - CORE ADMINISTRATION (Red Protocol) v5.0.2
+ * UI Optimization: David - Enhanced contrast and color legibility.
+ * Functional Integrity: CRUD, Real-time sync, and system logs maintained.
  */
 export default function AdminControlPanel() {
   const [activeTab, setActiveTab] = useState<'soporte' | 'requerimientos' | 'proyectos' | 'solicitudes' | 'sistema' | 'usuarios' | 'servicios'>('soporte');
@@ -35,7 +35,7 @@ export default function AdminControlPanel() {
   const scrollAnchor = useRef<HTMLDivElement>(null);
 
   /**
-   * David: PROTOCOLO DE PERSISTENCIA DE LOGS (DB + LOCAL)
+   * Application logging protocol for system traceability.
    */
   const logActivity = useCallback(async (type: 'INFO' | 'WARN' | 'ERROR' | 'USER', message: string) => {
     const adminTag = "DAVID_ADMIN";
@@ -62,7 +62,7 @@ export default function AdminControlPanel() {
   }, []);
 
   /**
-   * David: CARGA Y GESTIÓN DE SERVICIOS
+   * Service catalog data fetching.
    */
   const fetchServices = useCallback(async () => {
     const { data } = await supabase
@@ -90,7 +90,7 @@ export default function AdminControlPanel() {
   };
 
   /**
-   * PROTOCOLO DE AUTO-SCROLL
+   * Viewport management for message synchronization.
    */
   useEffect(() => {
     if (scrollAnchor.current) {
@@ -99,7 +99,7 @@ export default function AdminControlPanel() {
   }, [messages, systemLogs]);
 
   /**
-   * David: ESCUCHA DE CAMBIOS EN BASE DE DATOS Y CARGA DE HISTÓRICO
+   * Real-time subscription for system events and logs.
    */
   useEffect(() => {
     if (activeTab === 'sistema') {
@@ -138,7 +138,7 @@ export default function AdminControlPanel() {
   }, [activeTab, logActivity]);
 
   /**
-   * PROTOCOLO DE PRESENCIA STAFF
+   * Staff presence tracking via Supabase Presence.
    */
   useEffect(() => {
     const staffPresence = supabase.channel('staff-online-status', {
@@ -158,7 +158,7 @@ export default function AdminControlPanel() {
   }, []);
 
   /**
-   * 1. Cargar datos globales y presencia
+   * Initial data load for communication dashboard.
    */
   useEffect(() => {
     const fetchGlobalData = async () => {
@@ -185,7 +185,7 @@ export default function AdminControlPanel() {
   }, [activeTab]);
 
   /**
-   * David: Cargar Directorio de Usuarios
+   * User directory fetching protocol.
    */
   const fetchUsers = useCallback(async () => {
     const { data } = await supabase
@@ -212,7 +212,7 @@ export default function AdminControlPanel() {
   }, [activeTab, fetchUsers, fetchServices]);
 
   /**
-   * David: Gestión CRUD Usuarios
+   * User CRUD operations.
    */
   const handleCreateUser = async () => {
     const { error } = await supabase.from('perfiles_usuarios').insert([userData]);
@@ -245,7 +245,7 @@ export default function AdminControlPanel() {
   };
 
   /**
-   * David: Gestión de Status de Proyectos
+   * Project status synchronization.
    */
   const handleStatusChange = async (projectId: string, newStatus: string) => {
     setUpdatingId(projectId);
@@ -270,7 +270,7 @@ export default function AdminControlPanel() {
   };
 
   /**
-   * David: Filtro de búsqueda
+   * User filtering logic based on multiple fields.
    */
   const filteredUsers = usersList.filter(user => {
     const search = searchTerm.toLowerCase();
@@ -283,7 +283,7 @@ export default function AdminControlPanel() {
   });
 
   /**
-   * RASTREO DE CLIENTES ONLINE
+   * Monitoring client online status through specific channels.
    */
   useEffect(() => {
     const channels = chats.map(chat => {
@@ -302,7 +302,7 @@ export default function AdminControlPanel() {
   }, [chats]);
 
   /**
-   * 2. Cargar mensajes
+   * Message history and real-time support listener.
    */
   useEffect(() => {
     if (selectedClient && activeTab === 'soporte') {
@@ -347,7 +347,7 @@ export default function AdminControlPanel() {
   }, [selectedClient, activeTab]);
 
   /**
-   * 3. Gestión de Adjuntos
+   * Attachment management for support tickets.
    */
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -366,7 +366,7 @@ export default function AdminControlPanel() {
   };
 
   /**
-   * 4. Envío de respuesta Staff
+   * Staff outgoing communication trigger.
    */
   const sendReply = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -377,77 +377,102 @@ export default function AdminControlPanel() {
   };
 
   return (
-    <main className="flex h-screen bg-[#050000] text-white font-mono uppercase italic text-[10px] overflow-hidden">
+    <main className="flex h-screen bg-[#030000] text-red-500 font-mono uppercase italic text-[10px] overflow-hidden relative selection:bg-red-950/40">
       
-      <aside className="w-20 lg:w-64 border-r border-red-900/20 bg-[#080000] flex flex-col items-center lg:items-start p-6">
-        <div className="mb-12 relative group">
-          <div className="absolute inset-0 bg-red-600 blur-xl opacity-20" />
-          <Image src="/logo.png" alt="Gravity" width={30} height={30} className="relative grayscale brightness-200" />
+      {/* SYSTEM SCANNER AND DYNAMIC NEBULA DECORATION */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-0.5 bg-red-600/30 shadow-[0_0_25px_red] animate-scan z-50" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(50,0,0,0.1)_0%,transparent_70%)] animate-pulse-slow" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] brightness-200 contrast-150" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-red-600/5 blur-[120px] rounded-full animate-float" />
+      </div>
+
+      <aside className="w-20 lg:w-64 border-r border-red-900/30 bg-black/40 backdrop-blur-xl flex flex-col items-center lg:items-start p-6 relative z-10 shadow-[20px_0_50px_rgba(0,0,0,0.8)]">
+        <div className="mb-12 relative group cursor-crosshair">
+          <div className="absolute inset-0 bg-red-600 blur-2xl opacity-10 group-hover:opacity-50 transition-all duration-700 scale-150" />
+          <Image src="/logo.png" alt="Gravity" width={30} height={30} className="relative grayscale brightness-200 contrast-150 group-hover:rotate-180 transition-transform duration-1000" />
         </div>
         <nav className="flex flex-col gap-4 w-full">
-          {['soporte', 'servicios', 'requerimientos', 'proyectos', 'usuarios', 'sistema'].map((id) => (
-            <button key={id} onClick={() => setActiveTab(id as any)} className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-all ${activeTab === id ? 'bg-red-600 text-white' : 'text-gray-600 hover:text-red-400'}`}>
-              <span className="text-lg">
-                {id === 'soporte' ? '◈' : id === 'servicios' ? '⌬' : id === 'requerimientos' ? '⧇' : id === 'proyectos' ? '▣' : id === 'usuarios' ? '⧇' : '▦'}
-              </span>
-              <span className="hidden lg:block font-black tracking-widest">{id}</span>
+          {[
+            { id: 'soporte', icon: '◈', label: 'SOPORTE' },
+            { id: 'servicios', icon: '⌬', label: 'SERVICIOS' },
+            { id: 'requerimientos', icon: '⧇', label: 'REQUERIMIENTOS' },
+            { id: 'proyectos', icon: '▣', label: 'PROYECTOS' },
+            { id: 'usuarios', icon: '⧇', label: 'USUARIOS' },
+            { id: 'sistema', icon: '▦', label: 'CONSOLE LOGS' }
+          ].map((item) => (
+            <button 
+              key={item.id} 
+              onClick={() => setActiveTab(item.id as any)} 
+              className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-all relative group overflow-hidden
+                ${activeTab === item.id ? 'bg-red-600/20 border border-red-500/40 text-red-400 shadow-[0_0_20px_rgba(220,38,38,0.15)]' : 'text-red-900/60 hover:text-red-500 hover:bg-white/5'}`}
+            >
+              <span className={`text-lg transition-transform group-hover:scale-125 ${activeTab === item.id ? 'animate-pulse' : ''}`}>{item.icon}</span>
+              <span className="hidden lg:block font-black tracking-[0.2em]">{item.label}</span>
+              {activeTab === item.id && (
+                <div className="absolute left-0 w-1 h-full bg-red-600 shadow-[2px_0_10px_red]" />
+              )}
             </button>
           ))}
         </nav>
       </aside>
 
-      <section className="flex-grow flex flex-row overflow-hidden">
+      <section className="grow flex flex-row overflow-hidden relative z-10">
+        
+        {/* TAB: SERVICES */}
         {activeTab === 'servicios' ? (
-          <div className="flex-grow p-10 overflow-y-auto custom-scrollbar">
-            <header className="mb-10">
-              <h2 className="text-lg font-black tracking-[0.5em] text-red-500 italic">NÚCLEO_DE_SERVICIOS</h2>
-              <p className="text-gray-600 mt-2">Control maestro de precios y despliegues en vivo</p>
+          <div className="grow p-10 overflow-y-auto custom-scrollbar animate-reveal">
+            <header className="mb-10 border-l-4 border-red-600 pl-6 relative">
+              <div className="absolute -left-1 top-0 h-full w-4 bg-red-600/10 blur-md" />
+              <h2 className="text-2xl font-black tracking-[0.5em] text-red-500 italic">SERVICIOS</h2>
+              <p className="text-red-400 mt-2 font-bold uppercase tracking-widest text-[8px]">Control en tiemop real de servicios publicados.</p>
             </header>
 
             {editingServiceId && (
-              <div className="mb-10 p-8 border border-red-600/30 rounded-[2rem] bg-red-600/5 grid grid-cols-1 md:grid-cols-3 gap-4 animate-reveal">
+              <div className="mb-10 p-8 border border-red-600/40 rounded-3xl bg-red-950/20 grid grid-cols-1 md:grid-cols-3 gap-6 animate-reveal">
                 <div className="flex flex-col gap-2">
-                  <label className="text-[7px] text-red-500">NOMBRE_DEL_SERVICIO</label>
-                  <input value={serviceData.nombre} onChange={e => setServiceData({...serviceData, nombre: e.target.value})} className="bg-black/40 border border-red-900/20 p-4 rounded-xl text-[9px] outline-none" />
+                  <label className="text-[7px] text-red-400 font-black">ID_NOMENCLATURA</label>
+                  <input value={serviceData.nombre} onChange={e => setServiceData({...serviceData, nombre: e.target.value})} className="bg-black border border-red-900/40 p-4 rounded-xl text-[9px] outline-none focus:border-red-500 transition-all text-red-400" />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-[7px] text-red-500">INVERSIÓN_USD</label>
-                  <input value={serviceData.precio} onChange={e => setServiceData({...serviceData, precio: e.target.value})} className="bg-black/40 border border-red-900/20 p-4 rounded-xl text-[9px] outline-none" />
+                  <label className="text-[7px] text-red-400 font-black">USD_VALUATION</label>
+                  <input value={serviceData.precio} onChange={e => setServiceData({...serviceData, precio: e.target.value})} className="bg-black border border-red-900/40 p-4 rounded-xl text-[9px] outline-none focus:border-red-500 transition-all text-red-400" />
                 </div>
                 <div className="flex items-end gap-2">
-                   <button onClick={() => handleUpdateService(editingServiceId)} className="flex-grow bg-red-600 p-4 rounded-xl font-black text-[9px] hover:bg-red-500 transition-all">
-                    {updatingId ? 'SINCRONIZANDO...' : 'ACTUALIZAR_NÚCLEO'}
+                   <button onClick={() => handleUpdateService(editingServiceId)} className="grow bg-red-600 text-black p-4 rounded-xl font-black text-[9px] hover:bg-white transition-all uppercase">
+                    {updatingId ? 'SYNC_IN_PROGRESS...' : 'OVERWRITE_KERNEL'}
                    </button>
-                   <button onClick={() => setEditingServiceId(null)} className="p-4 bg-white/5 rounded-xl text-gray-500">✕</button>
+                   <button onClick={() => setEditingServiceId(null)} className="p-4 bg-red-900/20 rounded-xl text-red-500 hover:bg-red-500 hover:text-black transition-all">✕</button>
                 </div>
                 <div className="md:col-span-3 flex flex-col gap-2">
-                  <label className="text-[7px] text-red-500">DESCRIPCIÓN_TÉCNICA</label>
-                  <textarea value={serviceData.descripcion} onChange={e => setServiceData({...serviceData, descripcion: e.target.value})} className="bg-black/40 border border-red-900/20 p-4 rounded-xl text-[9px] outline-none h-20 normal-case font-sans" />
+                  <label className="text-[7px] text-red-400 font-black">TECHNICAL_SPECS</label>
+                  <textarea value={serviceData.descripcion} onChange={e => setServiceData({...serviceData, descripcion: e.target.value})} className="bg-black border border-red-900/40 p-4 rounded-xl text-[9px] outline-none h-20 normal-case font-sans focus:border-red-500 transition-all text-gray-300" />
                 </div>
               </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {servicesList.map((service, i) => (
-                <div key={i} className="bg-[#050000] border border-red-900/20 p-8 rounded-[2rem] hover:border-red-600/40 transition-all group relative overflow-hidden">
+                <div key={i} className="bg-black/60 border border-red-900/30 p-8 rounded-3xl hover:border-red-500/50 transition-all group relative overflow-hidden backdrop-blur-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-red-600/5 blur-3xl -mr-12 -mt-12 group-hover:bg-red-600/20 transition-all" />
                   <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button onClick={() => { 
                       setEditingServiceId(service.id); 
                       setServiceData({ nombre: service.nombre, precio: service.precio, descripcion: service.descripcion, is_active: service.is_active });
-                    }} className="text-red-500 bg-red-500/10 p-2 rounded-full hover:bg-red-500 hover:text-white transition-all">✎</button>
+                    }} className="text-red-400 bg-red-950 p-2 rounded-lg border border-red-900/40 hover:bg-red-600 hover:text-black transition-all">✎</button>
                   </div>
-                  <span className="text-[7px] text-gray-700 font-black tracking-widest">{service.categoria}</span>
-                  <h3 className="text-xs font-black text-white mt-2 group-hover:text-red-400 transition-colors">{service.nombre}</h3>
-                  <div className="my-6">
-                    <span className="text-2xl font-black text-red-600">${service.precio}</span>
-                    <span className="text-[8px] text-gray-600 ml-2">USD_MIN</span>
+                  <span className="text-[7px] text-red-500/60 font-black tracking-[0.3em] italic uppercase">{service.categoria}</span>
+                  <h3 className="text-sm font-black text-white mt-2 group-hover:text-red-500 transition-colors tracking-tighter uppercase">{service.nombre}</h3>
+                  <div className="my-6 flex items-end">
+                    <span className="text-3xl font-black text-red-600 leading-none group-hover:scale-110 transition-transform origin-left">${service.precio}</span>
+                    <span className="text-[8px] text-red-400 font-black ml-2 mb-1">USD_UNIT</span>
                   </div>
-                  <p className="text-[8px] text-gray-500 leading-relaxed italic normal-case font-sans line-clamp-3 mb-6">
+                  <p className="text-[9px] text-gray-300 leading-relaxed italic normal-case font-sans line-clamp-3 mb-6 border-l border-red-900/40 pl-4">
                     {service.descripcion}
                   </p>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-1 h-1 rounded-full ${service.is_active ? 'bg-green-500 shadow-[0_0_5px_green]' : 'bg-red-500'}`} />
-                    <span className="text-[6px] text-gray-700">{service.is_active ? 'DESPLIEGUE_ACTIVO' : 'SISTEMA_OFFLINE'}</span>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-2 h-2 rounded-full ${service.is_active ? 'bg-red-500 shadow-[0_0_15px_red] animate-pulse' : 'bg-gray-800'}`} />
+                    <span className="text-[7px] text-red-500 font-black tracking-widest uppercase">{service.is_active ? 'ACTIVE_DEPLO' : 'SYSTEM_HALT'}</span>
                   </div>
                 </div>
               ))}
@@ -455,161 +480,218 @@ export default function AdminControlPanel() {
           </div>
         ) : activeTab === 'soporte' ? (
           <>
-            <div className="w-80 border-r border-red-900/10 bg-[#030000] flex flex-col">
-              <header className="p-8 border-b border-red-900/10">
-                <h2 className="text-red-500 font-black tracking-widest">Canales_Activos</h2>
+            <div className="w-80 border-r border-red-900/30 bg-black/20 backdrop-blur-md flex flex-col relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 to-transparent pointer-events-none" />
+              <header className="p-8 border-b border-red-900/20 relative z-10">
+                <h2 className="text-red-500 font-black tracking-[0.3em] text-[9px] uppercase flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-ping" />
+                  SOPORTE ACTIVO
+                </h2>
               </header>
-              <div className="flex-grow overflow-y-auto">
+              <div className="grow overflow-y-auto custom-scrollbar z-10">
                 {chats.map((chat) => (
                   <button
                     key={chat.cliente_email}
                     onClick={() => setSelectedClient(chat.cliente_email)}
-                    className={`w-full p-6 text-left border-b border-red-900/5 transition-all relative ${selectedClient === chat.cliente_email ? 'bg-red-900/10 border-r-2 border-red-600' : ''}`}
+                    className={`w-full p-6 text-left border-b border-red-900/10 transition-all relative group ${selectedClient === chat.cliente_email ? 'bg-red-600/15' : 'hover:bg-white/5'}`}
                   >
                     <div className="flex justify-between items-center">
-                      <p className={`font-bold ${selectedClient === chat.cliente_email ? 'text-red-400' : 'text-gray-400'}`}>{chat.emisor_nombre}</p>
+                      <p className={`font-black tracking-tighter uppercase ${selectedClient === chat.cliente_email ? 'text-red-400' : 'text-red-900/80'}`}>{chat.emisor_nombre}</p>
                       <div className="flex items-center gap-2">
                         {onlineUsers[chat.cliente_email.toLowerCase()] ? (
-                          <span className="text-[6px] text-green-500 font-black animate-pulse">ONLINE</span>
+                          <span className="text-[6px] text-red-400 font-black animate-pulse bg-red-950/40 px-2 py-0.5 rounded border border-red-500/30">LIVE</span>
                         ) : (
-                          <span className="text-[6px] text-gray-800">OFFLINE</span>
+                          <span className="text-[6px] text-red-900/40 font-black uppercase">Idle</span>
                         )}
                         {!chat.es_staff && !chat.leido && (
-                          <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse shadow-[0_0_8px_rgba(220,38,38,1)]" />
+                          <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse shadow-[0_0_20px_red]" />
                         )}
                       </div>
                     </div>
-                    <p className="text-[7px] text-gray-600 mt-1 lowercase italic">{chat.cliente_email}</p>
+                    <p className="text-[8px] text-red-400/50 mt-1 lowercase italic font-bold tracking-tight">{chat.cliente_email}</p>
+                    {selectedClient === chat.cliente_email && <div className="absolute right-0 top-0 w-1 h-full bg-red-600 shadow-[-5px_0_20px_red]" />}
                   </button>
                 ))}
               </div>
             </div>
-            <div className="flex-grow flex flex-col bg-[#020000] relative">
+            <div className="grow flex flex-col bg-[#020000] relative">
               {selectedClient ? (
                 <>
-                  <header className="p-8 border-b border-red-900/10 backdrop-blur-md z-10 flex justify-between items-center">
-                    <h3 className="text-sm font-black italic tracking-tighter">Terminal: <span className="text-red-500">{selectedClient}</span></h3>
-                    {onlineUsers[selectedClient.toLowerCase()] ? (
-                      <span className="px-3 py-1 bg-green-500/10 border border-green-500/20 text-[7px] font-black rounded-full text-green-500 animate-pulse">CONEXIÓN_ESTABLE // ONLINE</span>
-                    ) : (
-                      <span className="px-3 py-1 bg-white/5 border border-white/10 text-[7px] font-black rounded-full text-gray-700">MODO_ESPERA // OFFLINE</span>
-                    )}
+                  <header className="p-8 border-b border-red-900/30 bg-black/80 backdrop-blur-2xl z-20 flex justify-between items-center shadow-2xl">
+                    <h3 className="text-xs font-black italic tracking-widest uppercase">Uplink: <span className="text-red-500 ml-2 animate-pulse">{selectedClient}</span></h3>
+                    <div className="flex items-center gap-4">
+                      {onlineUsers[selectedClient.toLowerCase()] ? (
+                        <div className="flex items-center gap-3">
+                          <div className="h-1 w-20 bg-red-950 rounded-full overflow-hidden">
+                            <div className="h-full bg-red-600 w-2/3 animate-loading-bar" />
+                          </div>
+                          <span className="px-4 py-2 bg-red-600 text-black text-[8px] font-black rounded-lg tracking-widest uppercase">Stable_Connection</span>
+                        </div>
+                      ) : (
+                        <span className="px-4 py-2 border border-red-900/40 text-[8px] font-black rounded-lg text-red-400/60 tracking-widest uppercase">OFFLINE</span>
+                      )}
+                    </div>
                   </header>
-                  <div className="flex-grow p-10 overflow-y-auto space-y-6 custom-scrollbar">
+                  <div className="grow p-10 overflow-y-auto space-y-8 custom-scrollbar bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.05)_0%,transparent_60%)]">
                     {messages.map((m, i) => (
                       <div key={i} className={`flex flex-col ${m.es_staff ? 'items-end' : 'items-start'} animate-reveal`}>
-                        <span className="text-[7px] text-gray-700 mb-1 uppercase tracking-widest">{m.es_staff ? 'GRAVITY_ADMIN' : m.emisor_nombre}</span>
-                        <div className={`max-w-md p-4 rounded-2xl ${m.es_staff ? 'bg-red-600 text-white font-bold rounded-tr-none' : 'bg-white/5 border border-white/10 text-gray-300'}`}>
-                          {m.contenido.startsWith('[IMAGE]:') ? <img src={m.contenido.replace('[IMAGE]:', '')} className="rounded-lg max-h-60" /> : m.contenido.startsWith('[FILE]:') ? <a href={m.contenido.split('|')[1]} target="_blank" className="flex items-center gap-3 p-2 bg-black/20 rounded-lg italic"><span>📄</span><span className="text-[9px] underline">{m.contenido.split('|')[0].replace('[FILE]:', '')}</span></a> : <span className="normal-case font-sans font-medium tracking-normal leading-relaxed">{m.contenido}</span>}
-                          {m.es_staff && <div className="flex justify-end mt-1"><span className={`text-[8px] ${m.leido ? 'text-white' : 'text-white/40'}`}>{m.leido ? '✓✓' : '✓'}</span></div>}
+                        <span className="text-[7px] text-red-400/60 mb-2 uppercase tracking-[0.3em] font-black italic">{m.es_staff ? 'DAVID_ADMIN' : m.emisor_nombre}</span>
+                        <div className={`max-w-md p-5 rounded-2xl border transition-all duration-500 ${m.es_staff ? 'bg-red-600 text-black font-black rounded-tr-none border-transparent shadow-[0_10px_40px_rgba(220,38,38,0.25)] hover:scale-[1.02]' : 'bg-black/80 backdrop-blur-sm border-red-900/50 text-red-400 rounded-tl-none shadow-[0_15px_30px_rgba(0,0,0,0.8)]'}`}>
+                          {m.contenido.startsWith('[IMAGE]:') ? (
+                            <img src={m.contenido.replace('[IMAGE]:', '')} className="rounded-lg max-h-80 border border-red-900/30" alt="Buffer" />
+                          ) : m.contenido.startsWith('[FILE]:') ? (
+                            <a href={m.contenido.split('|')[1]} target="_blank" className="flex items-center gap-4 p-4 bg-black/40 rounded-xl italic border border-red-900/30 hover:border-red-500 transition-all">
+                              <span className="text-xl">📁</span>
+                              <div className="flex flex-col">
+                                <span className="text-[9px] underline font-black">{m.contenido.split('|')[0].replace('[FILE]:', '')}</span>
+                                <span className="text-[7px] text-red-400 uppercase font-black">External_Data_Link</span>
+                              </div>
+                            </a>
+                          ) : (
+                            <span className="normal-case font-sans font-semibold tracking-tight leading-relaxed text-xs italic">{m.contenido}</span>
+                          )}
+                          {m.es_staff && (
+                            <div className="flex justify-end mt-2">
+                              <span className={`text-[8px] ${m.leido ? 'text-black' : 'text-black/40'}`}>{m.leido ? 'ACK_RECEIVED' : 'SENT'}</span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
                     <div ref={scrollAnchor} />
                   </div>
-                  <form onSubmit={sendReply} className="p-8 bg-[#050000] border-t border-red-900/20">
-                    <div className="flex items-center gap-3 bg-white/[0.02] border border-white/5 rounded-2xl p-2 px-4 focus-within:border-red-600/40 transition-all">
-                      <label className={`cursor-pointer p-3 rounded-xl hover:bg-red-600/10 ${uploading ? 'animate-pulse' : ''}`}><input type="file" className="hidden" onChange={handleFileUpload} disabled={uploading} /><span className="text-lg text-red-500">{uploading ? '...' : '📎'}</span></label>
-                      <input value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Escribir mensaje maestro..." className="flex-grow bg-transparent p-3 text-xs outline-none normal-case font-sans" />
-                      <button className="px-6 py-3 bg-red-600 text-white font-black text-[9px] rounded-xl active:scale-95 shadow-lg">ENVIAR</button>
+                  <form onSubmit={sendReply} className="p-8 bg-black/90 border-t border-red-900/30 backdrop-blur-3xl relative z-20">
+                    <div className="flex items-center gap-4 bg-[#080000] border border-red-900/40 rounded-2xl p-3 focus-within:border-red-500 focus-within:shadow-[0_0_30px_rgba(220,38,38,0.1)] transition-all">
+                      <label className={`cursor-pointer p-4 rounded-xl hover:bg-red-600 hover:text-black transition-all group ${uploading ? 'animate-pulse' : ''}`}>
+                        <input type="file" className="hidden" onChange={handleFileUpload} disabled={uploading} />
+                        <span className="text-xl">{uploading ? '...' : '📎'}</span>
+                      </label>
+                      <input value={reply} onChange={(e) => setReply(e.target.value)} placeholder="INYECTAR COMANDO DE RESPUESTA..." className="grow bg-transparent p-4 text-[11px] outline-none normal-case font-sans font-bold text-red-400 placeholder:text-red-900/40" />
+                      <button className="px-10 py-4 bg-red-600 text-black font-black text-[10px] rounded-xl active:scale-95 shadow-[0_5px_20px_rgba(220,38,38,0.4)] hover:bg-white transition-all uppercase tracking-widest">Execute</button>
                     </div>
                   </form>
                 </>
               ) : (
-                <div className="flex-grow flex items-center justify-center text-red-900/10 tracking-[2em] font-black italic">SELECCIONAR_TERMINAL</div>
+                <div className="grow flex items-center justify-center text-red-900/10 tracking-[3em] font-black italic select-none animate-pulse-slow">AWAITING_UPLINK</div>
               )}
             </div>
           </>
         ) : activeTab === 'usuarios' ? (
-          <div className="flex-grow p-10 overflow-y-auto custom-scrollbar">
-            <header className="mb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div className="grow p-10 overflow-y-auto custom-scrollbar animate-reveal">
+            <header className="mb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-l-4 border-red-600 pl-8 relative">
+              <div className="absolute -left-1 top-0 h-full w-4 bg-red-600/10 blur-md" />
               <div>
-                <h2 className="text-lg font-black tracking-[0.5em] text-red-500 italic">DIRECTORIO_DE_CLIENTES</h2>
-                <div className="flex gap-4 items-center mt-2">
+                <h2 className="text-3xl font-black tracking-[0.2em] text-red-500 italic uppercase">USUARIOS</h2>
+                <div className="flex gap-6 items-center mt-4">
                   <button 
                     onClick={() => { setIsCreating(!isCreating); setEditingUserId(null); setUserData({ nombre: '', email: '', telefono: '', rol: 'cliente' }); }}
-                    className="bg-red-600 px-4 py-2 rounded-lg text-[8px] font-black hover:bg-red-500 transition-colors"
+                    className="bg-red-600 text-black px-6 py-3 rounded-xl text-[9px] font-black hover:bg-white transition-all shadow-lg uppercase tracking-widest"
                   >
-                    {isCreating ? 'CANCELAR_CREACIÓN' : '＋ CREAR_NUEVO_USUARIO'}
+                    {isCreating ? 'HALT_CREATION' : '＋ CREATE_NODE'}
                   </button>
-                  <p className="text-gray-600">Base de datos de usuarios registrados en el núcleo</p>
+                  <p className="text-red-400 mt-2 font-bold uppercase tracking-widest text-[8px]">Indexación de usuarios en la base de datos.</p>
                 </div>
               </div>
-              <div className="relative w-full lg:w-96">
+              <div className="relative w-full lg:w-120 group">
                 <input 
                   type="text"
-                  placeholder="BUSCAR NOMBRE, EMAIL O TEL..."
+                  placeholder="FILTER BY ID / EMAIL / PHONE..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-red-900/5 border border-red-900/20 rounded-xl p-4 pl-10 text-[9px] font-black outline-none focus:border-red-600 transition-all placeholder:text-red-900/40"
+                  className="w-full bg-black/40 border border-red-900/40 rounded-xl p-5 pl-12 text-[10px] font-black outline-none focus:border-red-500 transition-all placeholder:text-red-900/40 text-red-400 group-hover:bg-black/80"
                 />
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-red-600 opacity-40">🔍</span>
+                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-red-600 opacity-40 text-lg group-hover:scale-110 transition-transform">🔍</span>
               </div>
             </header>
 
             {(isCreating || editingUserId) && (
-              <div className="mb-10 p-8 border border-red-600/30 rounded-[2rem] bg-red-600/5 grid grid-cols-1 md:grid-cols-4 gap-4 animate-reveal">
-                <input placeholder="NOMBRE" value={userData.nombre || ''} onChange={e => setUserData({...userData, nombre: e.target.value})} className="bg-black/40 border border-red-900/20 p-4 rounded-xl text-[9px] outline-none" />
-                <input placeholder="EMAIL" value={userData.email || ''} onChange={e => setUserData({...userData, email: e.target.value})} className="bg-black/40 border border-red-900/20 p-4 rounded-xl text-[9px] outline-none" />
-                <input placeholder="TELÉFONO" value={userData.telefono || ''} onChange={e => setUserData({...userData, telefono: e.target.value})} className="bg-black/40 border border-red-900/20 p-4 rounded-xl text-[9px] outline-none" />
-                <div className="flex gap-2">
-                  <select value={userData.rol || 'cliente'} onChange={e => setUserData({...userData, rol: e.target.value})} className="flex-grow bg-black/40 border border-red-900/20 p-4 rounded-xl text-[9px] outline-none uppercase">
-                    <option value="cliente">CLIENTE</option>
-                    <option value="staff">STAFF</option>
-                    <option value="disabled">DESHABILITADO</option>
-                  </select>
-                  <button onClick={editingUserId ? () => handleUpdateUser(editingUserId) : handleCreateUser} className="bg-red-600 px-6 rounded-xl font-black text-[9px]">
-                    {editingUserId ? 'GUARDAR' : 'CREAR'}
-                  </button>
+              <div className="mb-12 p-10 border border-red-600/40 rounded-[2.5rem] bg-red-950/20 grid grid-cols-1 md:grid-cols-4 gap-6 animate-reveal">
+                <div className="flex flex-col gap-2">
+                  <label className="text-[7px] text-red-400 font-black uppercase">Identity_Name</label>
+                  <input placeholder="NOMBRE" value={userData.nombre || ''} onChange={e => setUserData({...userData, nombre: e.target.value})} className="bg-black border border-red-900/40 p-5 rounded-xl text-[10px] outline-none text-red-400 focus:border-red-500 transition-all" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[7px] text-red-400 font-black uppercase">Email_Port</label>
+                  <input placeholder="EMAIL" value={userData.email || ''} onChange={e => setUserData({...userData, email: e.target.value})} className="bg-black border border-red-900/40 p-5 rounded-xl text-[10px] outline-none text-red-400 focus:border-red-500 transition-all" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[7px] text-red-400 font-black uppercase">Phone_Link</label>
+                  <input placeholder="TELÉFONO" value={userData.telefono || ''} onChange={e => setUserData({...userData, telefono: e.target.value})} className="bg-black border border-red-900/40 p-5 rounded-xl text-[10px] outline-none text-red-400 focus:border-red-500 transition-all" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[7px] text-red-400 font-black uppercase">Auth_Level</label>
+                  <div className="flex gap-3">
+                    <select value={userData.rol || 'cliente'} onChange={e => setUserData({...userData, rol: e.target.value})} className="grow bg-black border border-red-900/40 p-5 rounded-xl text-[10px] outline-none uppercase text-red-400 cursor-pointer">
+                      <option value="cliente">CLIENTE</option>
+                      <option value="staff">STAFF</option>
+                      <option value="disabled">REVOCADO</option>
+                    </select>
+                    <button onClick={editingUserId ? () => handleUpdateUser(editingUserId) : handleCreateUser} className="bg-red-600 text-black px-8 rounded-xl font-black text-[10px] hover:bg-white transition-all">
+                      {editingUserId ? 'OVERWRITE' : 'COMMIT'}
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredUsers.map((user, i) => (
-                <div key={i} className={`bg-[#050000] border border-red-900/20 p-8 rounded-[2rem] hover:border-red-600/40 transition-all group relative overflow-hidden ${user.rol === 'disabled' ? 'opacity-40 grayscale' : ''}`}>
-                  <div className="absolute top-0 right-0 p-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => { setEditingUserId(user.id); setUserData({ nombre: user.nombre || '', email: user.email || '', telefono: user.telefono || '', rol: user.rol || 'cliente' }); setIsCreating(false); }} className="text-blue-500 hover:text-blue-400">✎</button>
-                    <button onClick={() => handleDeleteUser(user.id)} className="text-red-500 hover:text-red-400">✕</button>
+                <div key={i} className={`bg-black/60 border border-red-900/30 p-8 rounded-4xl hover:border-red-500/50 transition-all group relative overflow-hidden backdrop-blur-sm ${user.rol === 'disabled' ? 'opacity-30 grayscale' : ''} hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]`}>
+                  <div className="absolute top-0 right-0 p-5 flex gap-3 opacity-0 group-hover:opacity-100 transition-all">
+                    <button onClick={() => { setEditingUserId(user.id); setUserData({ nombre: user.nombre || '', email: user.email || '', telefono: user.telefono || '', rol: user.rol || 'cliente' }); setIsCreating(false); }} className="text-red-400 bg-red-950 p-2 rounded-lg border border-red-900/40 hover:bg-red-500 hover:text-black transition-all">✎</button>
+                    <button onClick={() => handleDeleteUser(user.id)} className="text-red-500 bg-red-950 p-2 rounded-lg border border-red-900/40 hover:bg-red-600 hover:text-black transition-all">✕</button>
                   </div>
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="w-10 h-10 bg-red-600/10 rounded-full flex items-center justify-center text-red-500 font-black">
-                      {user.nombre?.charAt(0) || 'U'}
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="w-12 h-12 bg-red-950/40 border border-red-500/40 rounded-full flex items-center justify-center text-red-500 font-black text-lg italic shadow-[0_0_15px_rgba(255,0,0,0.3)] group-hover:scale-110 transition-transform">
+                      {user.nombre?.charAt(0) || 'N'}
                     </div>
-                    <span className="text-[6px] text-gray-800 font-black tracking-widest">{user.rol || 'CLIENTE'}</span>
+                    <span className={`text-[7px] font-black tracking-[0.4em] uppercase px-3 py-1 rounded-full border ${user.rol === 'staff' ? 'border-red-500 bg-red-950/60 text-red-400 shadow-[0_0_10px_red]' : 'border-red-900/40 text-red-900'}`}>
+                      {user.rol || 'CLIENTE'}
+                    </span>
                   </div>
-                  <p className="text-xs font-black text-white mb-1 group-hover:text-red-400 transition-colors uppercase">{user.nombre || "SIN_NOMBRE"}</p>
-                  <p className="text-[8px] text-red-500/80 lowercase italic mb-6">{user.email}</p>
-                  <div className="space-y-2 border-t border-red-900/10 pt-4">
-                    <p className="text-[7px] text-gray-600 uppercase">TEL: <span className="text-gray-400">{user.telefono || "NO_ASIGNADO"}</span></p>
-                    <p className="text-[7px] text-gray-600 uppercase">ALTA: <span className="text-gray-400">{user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</span></p>
+                  <p className="text-sm font-black text-white mb-2 group-hover:text-red-500 transition-colors uppercase tracking-tight italic">{user.nombre || "ID_PENDING"}</p>
+                  <p className="text-[9px] text-red-400/60 font-bold lowercase italic mb-8 border-b border-red-900/20 pb-4">{user.email}</p>
+                  <div className="grow space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[7px] text-red-500/60 font-black uppercase">Comm_Link:</span>
+                      <span className="text-[8px] text-gray-300 font-bold">{user.telefono || "NULL"}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[7px] text-red-500/60 font-black uppercase">Reg_Stamp:</span>
+                      <span className="text-[8px] text-gray-300 font-bold">{user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</span>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         ) : activeTab === 'sistema' ? (
-          <div className="flex-grow p-10 overflow-hidden flex flex-col">
-            <header className="mb-6 flex justify-between items-end">
+          <div className="grow p-10 overflow-hidden flex flex-col animate-reveal">
+            <header className="mb-8 flex justify-between items-end border-b border-red-900/30 pb-6 relative">
+              <div className="absolute bottom-0 left-0 w-40 h-1 bg-red-600/40 blur-sm" />
               <div>
-                <h2 className="text-lg font-black tracking-[0.5em] text-red-500 italic">LOG_ACTIVIDAD_GLOBAL</h2>
-                <p className="text-gray-600 mt-2">Auditoría completa de movimientos en el núcleo</p>
+                <h2 className="text-2xl font-black tracking-[0.5em] text-red-500 italic uppercase">CONSOLE LOGS</h2>
+                <p className="text-red-400 mt-2 font-bold uppercase tracking-widest text-[8px]">Auditoría de bajo nivel en tiempo real.</p>
               </div>
-              <div className="text-[8px] text-red-900 animate-pulse font-black">● STORAGE_PERSISTENCE_ACTIVE</div>
+              <div className="flex items-center gap-3">
+                <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse shadow-[0_0_10px_red]" />
+                <div className="text-[9px] text-red-500 font-black tracking-widest uppercase italic">Persistence_Core: Active</div>
+              </div>
             </header>
-            <div className="flex-grow bg-[#030000] border border-red-900/20 rounded-[2rem] p-8 overflow-y-auto custom-scrollbar font-mono">
-              <div className="space-y-2">
+            <div className="grow bg-black/40 border border-red-900/30 rounded-3xl p-10 overflow-y-auto custom-scrollbar font-mono relative backdrop-blur-sm shadow-inner">
+              <div className="absolute top-4 right-8 text-[8px] text-red-900/10 font-black tracking-[1em] rotate-90 origin-right select-none">GRAVITY_KERNEL_V5</div>
+              <div className="space-y-4">
                 {systemLogs.map((log) => (
-                  <div key={log.id} className="flex gap-4 border-b border-red-900/5 py-2 animate-reveal">
-                    <span className="text-gray-700">[{log.time}]</span>
-                    <span className={`font-black ${
-                      log.type === 'ERROR' ? 'text-red-600' : 
+                  <div key={log.id} className="flex gap-6 border-b border-red-900/10 py-3 animate-reveal-left group hover:bg-red-600/10 transition-colors px-4 rounded-lg">
+                    <span className="text-red-400/40 text-[9px] font-bold">[{log.time}]</span>
+                    <span className={`font-black text-[9px] tracking-widest min-w-15 ${
+                      log.type === 'ERROR' ? 'text-red-500 shadow-[0_0_10px_red]' : 
                       log.type === 'WARN' ? 'text-yellow-500' : 
-                      log.type === 'USER' ? 'text-blue-500' : 'text-green-500'
+                      log.type === 'USER' ? 'text-blue-400' : 'text-green-400'
                     }`}>
                       {log.type}
                     </span>
-                    <span className="text-gray-400 lowercase italic">{log.message}</span>
+                    <span className="text-gray-300 italic font-medium tracking-tight group-hover:text-red-500 transition-colors uppercase text-[9px]">{log.message}</span>
                   </div>
                 ))}
               </div>
@@ -617,55 +699,59 @@ export default function AdminControlPanel() {
             </div>
           </div>
         ) : (activeTab === 'solicitudes' || activeTab === 'requerimientos' || activeTab === 'proyectos') ? (
-          <div className="flex-grow p-10 overflow-y-auto custom-scrollbar">
-            <header className="mb-10">
-              <h2 className="text-lg font-black tracking-[0.5em] text-red-500 italic">
-                {activeTab === 'requerimientos' ? 'PROTOCOLO_REQUERIMIENTOS' : 
-                 activeTab === 'proyectos' ? 'LISTADO_GLOBAL_PROYECTOS' : 'GESTIÓN_SOLICITUDES'}
+          <div className="grow p-10 overflow-y-auto custom-scrollbar animate-reveal">
+            <header className="mb-12 border-l-4 border-red-600 pl-8 relative">
+              <div className="absolute -left-1 top-0 h-full w-4 bg-red-600/10 blur-md" />
+              <h2 className="text-3xl font-black tracking-[0.2em] text-red-500 italic uppercase">
+                {activeTab === 'requerimientos' ? 'REQUERIMIENTOS' : 
+                 activeTab === 'proyectos' ? 'PROYECTOS' : 'New_Contract_Queue'}
               </h2>
-              <p className="text-gray-600 mt-2">Seguimiento de flujo de trabajo y estados del sistema</p>
+              <p className="text-red-400 mt-3 font-bold uppercase tracking-widest text-[9px]">Monitoreo de flujo de trabajo y estados de ejecución.</p>
             </header>
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-6">
               {projectRequests
                 .filter(req => {
-                  // David: Filtro unificado basado en la necesidad de visualización global en Proyectos
                   if (activeTab === 'requerimientos') return req.paquete_seleccionado === 'REQUERIMIENTO_ADICIONAL';
-                  if (activeTab === 'proyectos') return true; // Visualiza TODOS los proyectos sin importar el status
+                  if (activeTab === 'proyectos') return true;
                   return req.paquete_seleccionado !== 'REQUERIMIENTO_ADICIONAL';
                 })
                 .map((req, i) => (
-                <div key={i} className="bg-[#050000] border border-red-900/20 p-8 rounded-[2rem] flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 animate-reveal">
-                  <div className="flex-grow">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-black text-white">{req.proyecto_nombre}</span>
-                      <span className={`text-[6px] px-2 py-0.5 rounded-full border ${
-                        req.estado === 'completado' ? 'border-green-500 text-green-500' : 
-                        req.estado === 'en_proceso' ? 'border-blue-500 text-blue-500' : 
-                        'border-red-900 text-red-900'
+                <div key={i} className="bg-black/40 border border-red-900/30 p-8 rounded-[2.5rem] flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 animate-reveal hover:border-red-500/50 transition-all backdrop-blur-sm hover:shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
+                  <div className="grow">
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm font-black text-white italic tracking-tighter uppercase">{req.proyecto_nombre}</span>
+                      <span className={`text-[7px] px-3 py-1 rounded-full border font-black uppercase tracking-widest ${
+                        req.estado === 'completado' ? 'border-green-500 text-green-400 bg-green-950/40 shadow-[0_0_10px_rgba(0,255,0,0.2)]' : 
+                        req.estado === 'en_proceso' ? 'border-blue-500 text-blue-400 bg-blue-950/40 shadow-[0_0_10px_rgba(0,0,255,0.2)]' : 
+                        'border-red-500 text-red-400 bg-red-950/40 shadow-[0_0_10px_rgba(255,0,0,0.2)] animate-pulse'
                       }`}>
-                        {req.estado}
+                        {req.estado.toUpperCase()}
                       </span>
                     </div>
-                    <p className="text-[9px] text-gray-600 mt-1 lowercase italic">{req.cliente_email}</p>
-                    <p className="text-[10px] text-gray-400 mt-4 leading-relaxed max-w-2xl">{req.descripcion}</p>
-                    <div className="flex gap-4 mt-4">
+                    <p className="text-[9px] text-red-400/60 mt-2 font-bold italic tracking-tight uppercase border-b border-red-900/20 pb-2 mb-4 w-fit">{req.cliente_email}</p>
+                    <p className="text-[10px] text-gray-300 mt-4 leading-relaxed max-w-2xl font-sans italic border-l border-red-900/30 pl-6 normal-case">{req.descripcion}</p>
+                    <div className="flex gap-6 mt-6">
                       {req.brief_url && (
-                        <a href={req.brief_url} target="_blank" className="text-[7px] text-red-500 hover:underline">ABRIR_BRIEF_TÉCNICO ↗</a>
+                        <a href={req.brief_url} target="_blank" className="text-[8px] bg-red-600 text-black px-4 py-2 rounded-lg font-black hover:bg-white transition-all uppercase tracking-widest shadow-[0_5px_15px_rgba(220,38,38,0.3)]">Open_Brief_Data ↗</a>
                       )}
-                      <span className="text-[7px] text-gray-800">CATEGORÍA: {req.paquete_seleccionado}</span>
+                      <span className="text-[8px] text-red-400 font-black uppercase flex items-center gap-2">
+                        <span className="w-1 h-1 bg-red-600 rounded-full animate-ping" />
+                        Class: {req.paquete_seleccionado}
+                      </span>
                     </div>
                   </div>
-                  <div className="w-full lg:w-48">
+                  <div className="w-full lg:w-64">
+                    <label className="text-[7px] text-red-400 font-black uppercase mb-2 block tracking-widest">Update_Status</label>
                     <select 
                       disabled={updatingId === req.id}
                       value={req.estado} 
                       onChange={(e) => handleStatusChange(req.id, e.target.value)}
-                      className="w-full bg-[#080000] border border-red-900/30 text-[9px] font-black p-4 rounded-xl outline-none focus:border-red-600 transition-all text-red-500 uppercase"
+                      className="w-full bg-black/80 border border-red-900/40 text-[10px] font-black p-5 rounded-xl outline-none focus:border-red-500 transition-all text-red-400 uppercase cursor-pointer"
                     >
-                      <option value="en_revision">En Revisión</option>
-                      <option value="aprobado">Aprobado</option>
-                      <option value="en_proceso">En Proceso</option>
-                      <option value="completado">Completado</option>
+                      <option value="en_revision">STATUS_REVISION</option>
+                      <option value="aprobado">STATUS_APROBADO</option>
+                      <option value="en_proceso">STATUS_PROCESO</option>
+                      <option value="completado">STATUS_COMPLETADO</option>
                     </select>
                   </div>
                 </div>
@@ -673,10 +759,74 @@ export default function AdminControlPanel() {
             </div>
           </div>
         ) : (
-          <div className="flex-grow flex items-center justify-center text-red-900/10 tracking-[2em] font-black italic">GRAVITY_NUCLEUS</div>
+          <div className="grow flex items-center justify-center text-red-900/5 tracking-[5em] font-black italic select-none animate-pulse-slow">GRAVITY_NUCLEUS</div>
         )}
       </section>
-      <style>{`.custom-scrollbar::-webkit-scrollbar { width: 3px; } .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(220, 38, 38, 0.1); }`}</style>
+
+      {/* TECHNICAL FOOTER WITH STATUS INDICATOR */}
+      <footer className="absolute bottom-0 left-0 w-full p-4 border-t border-red-900/20 bg-black/90 backdrop-blur-2xl z-30 flex justify-between items-center shadow-[0_-20px_50px_rgba(0,0,0,0.9)]">
+        <div className="flex gap-10 items-center">
+          <p className="text-[8px] text-red-400 font-black uppercase tracking-[0.6em] italic flex items-center gap-3">
+            <span className="w-2 h-2 bg-red-600 rounded-full shadow-[0_0_10px_red] animate-pulse" />
+            COPYRIGHT 2026 | GRAVITY LABS ROOT | Core_v5.0.4
+          </p>
+          <div className="hidden md:flex gap-4 text-[7px] text-red-400/50 uppercase font-black">
+            <span className="animate-pulse text-red-500">Lat: 12ms</span>
+            <span className="text-red-500">Buff: 100%</span>
+            <span className="text-red-500">Prot: SSL_RED</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-8 text-[8px] uppercase tracking-widest font-black text-red-400/40">
+          <span className="text-red-900/60 animate-pulse">Encryption: AES-256-KRNL</span>
+          <span className="text-red-400 bg-red-950/60 px-4 py-1.5 rounded-full border border-red-500/30 shadow-[0_0_15px_rgba(255,0,0,0.15)]">SECURE_SERVER</span>
+        </div>
+      </footer>
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; } 
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #7f1d1d; border-radius: 10px; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+
+        @keyframes scan {
+          0% { top: -10%; opacity: 0; }
+          20% { opacity: 0.8; }
+          80% { opacity: 0.8; }
+          100% { top: 110%; opacity: 0; }
+        }
+        .animate-scan { animation: scan 8s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(1.05); }
+        }
+        .animate-pulse-slow { animation: pulse-slow 6s ease-in-out infinite; }
+
+        @keyframes reveal {
+          from { opacity: 0; transform: translateY(20px) scale(0.98); filter: blur(10px); }
+          to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        .animate-reveal { animation: reveal 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+
+        @keyframes reveal-left {
+          from { opacity: 0; transform: translateX(-20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-reveal-left { animation: reveal-left 0.4s ease-out forwards; }
+
+        @keyframes loading-bar {
+          0% { transform: translateX(-100%); }
+          50% { transform: translateX(0); }
+          100% { transform: translateX(100%); }
+        }
+        .animate-loading-bar { animation: loading-bar 3s infinite linear; }
+
+        @keyframes float {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(30px, -20px); }
+        }
+        .animate-float { animation: float 15s ease-in-out infinite; }
+      `}</style>
     </main>
   );
 }
