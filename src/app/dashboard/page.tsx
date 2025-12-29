@@ -6,38 +6,42 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabase';
 
 /**
- * Gravity Labs - Operations Dashboard v4.2
- * David: Dashboard cliente con métricas de proyecto, estado de red y chat sincronizado.
- * MOD: Nombres de paquetes sincronizados con la Homepage para productización.
+ * Gravity Labs - Operations Dashboard v4.3 (Security Enhanced)
+ * David: Se implementa validación forzosa contra la tabla 'perfiles_usuarios'.
+ * Solo permite el acceso si el campo 'rol' es estrictamente 'CLIENTE'.
  */
 function DashboardContent() {
   const [mounted, setMounted] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true); // Protector de ruta activo
   const [activeView, setActiveView] = useState<'overview' | 'projects' | 'support' | 'profile' | 'requirements'>('overview');
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [uploading, setUploading] = useState(false);
   const [onlineStaff, setOnlineStaff] = useState<any[]>([]); 
   
-  // David: Estados para la gestión de solicitudes de proyectos
   const [projectLoading, setProjectLoading] = useState(false);
   const [showNewProjectForm, setShowNewProjectForm] = useState(false);
   const [userProjects, setUserProjects] = useState<any[]>([]);
+  
+  // Datos del usuario validados desde la base de datos
+  const [userData, setUserData] = useState({ nombre: '', email: '', telefono: '' });
+
   const [projectData, setProjectData] = useState({ 
     name: '', 
     desc: '', 
     fileUrl: '', 
     package: 'NEBULA_LANDING',
-    category: 'MODIFICACION_DISEÑO' // David: Categoría por defecto para requerimientos
+    category: 'MODIFICACION_DISEÑO'
   });
 
   const searchParams = useSearchParams();
   const router = useRouter();
   const scrollAnchor = useRef<HTMLDivElement>(null);
   
-  const userName = searchParams.get('name') || 'OPERADOR';
-  const clientEmail = searchParams.get('email') || ''; 
+  // Variables de UI basadas en el estado validado
+  const userName = userData.nombre || 'OPERADOR';
+  const clientEmail = userData.email || ''; 
 
-  // David: Catálogo de paquetes sincronizado con la Homepage
   const CATALOG_PACKAGES = [
     { id: 'NEBULA_LANDING', name: 'Nebula Landing', category: 'Web' },
     { id: 'SUPERNOVA_BUSINESS', name: 'Supernova Business', category: 'Web' },
@@ -47,7 +51,6 @@ function DashboardContent() {
     { id: 'COSMOS_ENTERPRISE', name: 'Cosmos Enterprise', category: 'Sistemas' }
   ];
 
-  // David: Categorías para requerimientos adicionales
   const REQUIREMENT_CATEGORIES = [
     { id: 'MODIFICACION_DISEÑO', name: '🎨 Modificación de Diseño' },
     { id: 'NUEVA_FUNCIONALIDAD', name: '⚡ Funcionalidad Nueva' },
@@ -56,123 +59,66 @@ function DashboardContent() {
     { id: 'AJUSTE_CONTENIDO', name: '📝 Ajuste de Contenido / Copys' }
   ];
 
-  useEffect(() => {
-    setMounted(true);
-    
-    const pkgFromUrl = searchParams.get('pkg')?.toUpperCase();
-    if (pkgFromUrl) {
-      setActiveView('projects');
-      setShowNewProjectForm(true);
-      // David: Se busca coincidencia exacta o por ID para el pre-llenado desde la URL
-      const matchedPkg = CATALOG_PACKAGES.find(p => p.id === pkgFromUrl || p.id.includes(pkgFromUrl))?.id || 'NEBULA_LANDING';
-      setProjectData(prev => ({ 
-        ...prev, 
-        package: matchedPkg,
-        name: `DESPLIEGUE_${matchedPkg}` 
-      }));
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
-    if ((activeView === 'projects' || activeView === 'requirements') && clientEmail) {
-      const fetchProjects = async () => {
-        const { data } = await supabase
-          .from('solicitudes_proyectos')
-          .select('*')
-          .eq('cliente_email', clientEmail.toLowerCase())
-          .order('created_at', { ascending: false });
-        if (data) setUserProjects(data);
-      };
-      fetchProjects();
-    }
-  }, [activeView, clientEmail, projectLoading]);
-
-  useEffect(() => {
-    if (scrollAnchor.current) {
-      scrollAnchor.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
-
   /**
-   * PROTOCOLO DE PRESENCIA GLOBAL
+   * Protocolo de Validación de Rol: CLIENTE
+   * David: Se normaliza comparación para evitar el bucle de redirección.
    */
   useEffect(() => {
-    if (!clientEmail || !mounted) return;
+    const validateClientRole = async () => {
+      // 1. Verificar sesión de Auth
+      const { data: { session }, error: authError } = await supabase.auth.getSession();
 
-    const globalPresence = supabase.channel('global-customer-presence');
-    globalPresence.subscribe(async (status) => {
-      if (status === 'SUBSCRIBED') {
-        await globalPresence.track({
-          email: clientEmail.toLowerCase(),
-          user: userName,
-          online_at: new Date().toISOString()
-        });
+      if (authError || !session) {
+        console.warn("ACCESO_DENEGADO: Sin sesión activa.");
+        router.replace('/uplink');
+        return;
       }
-    });
 
-    const staffChannel = supabase.channel('staff-online-status')
-      .on('presence', { event: 'sync' }, () => {
-        const state = staffChannel.presenceState();
-        const admins = Object.keys(state).map(key => state[key][0]);
-        setOnlineStaff(admins);
-      })
-      .subscribe();
+      // 2. Consultar tabla perfiles_usuarios para validar ROL usando el email
+      const { data: profile, error: dbError } = await supabase
+        .from('perfiles_usuarios')
+        .select('nombre, email, rol, telefono')
+        .eq('email', session.user.email?.toLowerCase())
+        .single();
 
-    return () => {
-      supabase.removeChannel(globalPresence);
-      supabase.removeChannel(staffChannel);
+      // David: IMPORTANTE - Validación estricta contra 'cliente' y exclusión de admin/staff
+      if (dbError || !profile || profile.rol?.toLowerCase() !== 'cliente') {
+        console.error("ACCESO_RESTRINGIDO: Rol insuficiente o acceso no autorizado para clientes.");
+        // Si es admin/staff, redirigir al panel correcto
+        if (profile && ['admin', 'staff'].includes(profile.rol?.toLowerCase())) {
+          console.log("Usuario admin/staff detectado, redirigiendo a /admin/soporte");
+          router.replace('/admin/soporte');
+          return;
+        }
+        await supabase.auth.signOut(); 
+        router.replace('/uplink');
+        return;
+      }
+
+      // 3. Cargar datos validados en el estado
+      setUserData({
+        nombre: profile.nombre,
+        email: profile.email,
+        telefono: profile.telefono || 'N/A'
+      });
+      
+      setAuthLoading(false);
     };
-  }, [clientEmail, mounted, userName]);
 
-  /**
-   * PROTOCOLO DE TIEMPO REAL: Mensajería de Soporte
-   */
-  useEffect(() => {
-    if (activeView === 'support' && clientEmail) {
-      const fetchMessages = async () => {
-        const { data } = await supabase
-          .from('mensajes_soporte')
-          .select('*')
-          .eq('cliente_email', clientEmail.toLowerCase())
-          .order('created_at', { ascending: true });
-        if (data) setMessages(data);
+    validateClientRole();
+  }, [router]);
 
-        await supabase
-          .from('mensajes_soporte')
-          .update({ leido: true })
-          .eq('cliente_email', clientEmail.toLowerCase())
-          .eq('es_staff', true)
-          .eq('leido', false);
-      };
+  // --- MANEJADORES DE EVENTOS ---
 
-      fetchMessages();
-
-      const channel = supabase
-        .channel(`chat_${clientEmail.toLowerCase()}`)
-        .on('postgres_changes', { 
-          event: '*', 
-          schema: 'public', 
-          table: 'mensajes_soporte',
-          filter: `cliente_email=eq.${clientEmail.toLowerCase()}` 
-        }, (payload) => {
-          if (payload.eventType === 'INSERT') {
-            setMessages((prev) => [...prev, payload.new]);
-            if (payload.new.es_staff) {
-              supabase.from('mensajes_soporte').update({ leido: true }).eq('id', payload.new.id).then();
-            }
-          } else if (payload.eventType === 'UPDATE') {
-            setMessages((prev) => prev.map(m => m.id === payload.new.id ? payload.new : m));
-          }
-        })
-        .subscribe();
-
-      return () => { supabase.removeChannel(channel); };
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      router.push('/uplink');
+    } catch (err) {
+      router.push('/uplink');
     }
-  }, [activeView, clientEmail]);
+  };
 
-  /**
-   * David: Lógica de envío para nuevas solicitudes
-   */
   const handleProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setProjectLoading(true);
@@ -193,15 +139,11 @@ function DashboardContent() {
       if (error) throw error;
       alert(`SISTEMA: ${isExtraReq ? 'Requerimiento adicional' : 'Solicitud de despliegue'} recibida.`);
       setShowNewProjectForm(false);
-      router.replace(`/dashboard?name=${userName}&email=${clientEmail}`);
     } catch (err) {
       alert("ERROR_CRITICO_EN_SOLICITUD");
     } finally { setProjectLoading(false); }
   };
 
-  /**
-   * GESTIÓN DE ENVÍO Y ARCHIVOS ADJUNTOS
-   */
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, isProjectBrief = false) => {
     const file = e.target.files?.[0];
     if (!file || !clientEmail) return;
@@ -217,7 +159,13 @@ function DashboardContent() {
         setProjectData({ ...projectData, fileUrl: publicUrl });
       } else {
         const contenidoAdjunto = file.type.startsWith('image/') ? `[IMAGE]:${publicUrl}` : `[FILE]:${file.name}|${publicUrl}`;
-        await supabase.from('mensajes_soporte').insert([{ emisor_nombre: userName, contenido: contenidoAdjunto, cliente_email: clientEmail.toLowerCase(), es_staff: false, leido: false }]);
+        await supabase.from('mensajes_soporte').insert([{ 
+          emisor_nombre: userName, 
+          contenido: contenidoAdjunto, 
+          cliente_email: clientEmail.toLowerCase(), 
+          es_staff: false, 
+          leido: false 
+        }]);
       }
     } catch (err) { alert("ERROR_TRANSMISION"); } finally { setUploading(false); }
   };
@@ -225,20 +173,119 @@ function DashboardContent() {
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !clientEmail) return;
-    const { error } = await supabase.from('mensajes_soporte').insert([{ emisor_nombre: userName, contenido: newMessage, cliente_email: clientEmail.toLowerCase(), es_staff: false, leido: false }]);
+    const { error } = await supabase.from('mensajes_soporte').insert([{ 
+      emisor_nombre: userName, 
+      contenido: newMessage, 
+      cliente_email: clientEmail.toLowerCase(), 
+      es_staff: false, 
+      leido: false 
+    }]);
     if (!error) setNewMessage('');
   };
 
-  const handleLogout = () => router.push('/uplink');
+  // --- EFECTOS DE SINCRONIZACIÓN ---
 
-  if (!mounted) return <div className="min-h-screen bg-[#020205]" />;
+  useEffect(() => {
+    setMounted(true);
+    const pkgFromUrl = searchParams.get('pkg')?.toUpperCase();
+    if (pkgFromUrl) {
+      setActiveView('projects');
+      setShowNewProjectForm(true);
+      const matchedPkg = CATALOG_PACKAGES.find(p => p.id === pkgFromUrl || p.id.includes(pkgFromUrl))?.id || 'NEBULA_LANDING';
+      setProjectData(prev => ({ ...prev, package: matchedPkg, name: `DESPLIEGUE_${matchedPkg}` }));
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!authLoading && (activeView === 'projects' || activeView === 'requirements') && clientEmail) {
+      const fetchProjects = async () => {
+        const { data } = await supabase.from('solicitudes_proyectos')
+          .select('*').eq('cliente_email', clientEmail.toLowerCase())
+          .order('created_at', { ascending: false });
+        if (data) setUserProjects(data);
+      };
+      fetchProjects();
+    }
+  }, [activeView, clientEmail, projectLoading, authLoading]);
+
+  useEffect(() => {
+    if (scrollAnchor.current) scrollAnchor.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    if (!clientEmail || !mounted || authLoading) return;
+
+    const globalPresence = supabase.channel('global-customer-presence');
+    globalPresence.subscribe(async (status) => {
+      if (status === 'SUBSCRIBED') {
+        await globalPresence.track({
+          email: clientEmail.toLowerCase(),
+          user: userName,
+          online_at: new Date().toISOString()
+        });
+      }
+    });
+
+    const staffChannel = supabase.channel('staff-online-status')
+      .on('presence', { event: 'sync' }, () => {
+        const state = staffChannel.presenceState();
+        const admins = Object.keys(state).map(key => (state[key] as any)[0]);
+        setOnlineStaff(admins);
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(globalPresence);
+      supabase.removeChannel(staffChannel);
+    };
+  }, [clientEmail, mounted, userName, authLoading]);
+
+  useEffect(() => {
+    if (!authLoading && activeView === 'support' && clientEmail) {
+      const fetchMessages = async () => {
+        const { data } = await supabase.from('mensajes_soporte')
+          .select('*').eq('cliente_email', clientEmail.toLowerCase())
+          .order('created_at', { ascending: true });
+        if (data) setMessages(data);
+
+        await supabase.from('mensajes_soporte').update({ leido: true })
+          .eq('cliente_email', clientEmail.toLowerCase()).eq('es_staff', true).eq('leido', false);
+      };
+
+      fetchMessages();
+
+      const channel = supabase.channel(`chat_${clientEmail.toLowerCase()}`)
+        .on('postgres_changes', { 
+          event: '*', schema: 'public', table: 'mensajes_soporte',
+          filter: `cliente_email=eq.${clientEmail.toLowerCase()}` 
+        }, (payload) => {
+          if (payload.eventType === 'INSERT') {
+            setMessages((prev) => [...prev, payload.new]);
+            if (payload.new.es_staff) {
+              supabase.from('mensajes_soporte').update({ leido: true }).eq('id', payload.new.id).then();
+            }
+          } else if (payload.eventType === 'UPDATE') {
+            setMessages((prev) => prev.map(m => m.id === payload.new.id ? payload.new : m));
+          }
+        }).subscribe();
+
+      return () => { supabase.removeChannel(channel); };
+    }
+  }, [activeView, clientEmail, authLoading]);
+
+  if (!mounted || authLoading) {
+    return (
+      <div className="min-h-screen bg-[#020205] flex items-center justify-center font-mono text-[10px] text-cyan-900 tracking-[1em] animate-pulse uppercase">
+        Verifying_Identity_Core...
+      </div>
+    );
+  }
 
   return (
     <main className="h-screen bg-[#020205] text-white flex flex-col md:flex-row relative overflow-hidden">
-      
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-cyan-500/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-5%] left-[-5%] w-[400px] h-[400px] bg-blue-600/5 blur-[100px] rounded-full" />
+        <div className="absolute top-[-10%] right-[-10%] w-125 h-125 bg-cyan-500/5 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-5%] left-[-5%] w-100 h-100 bg-blue-600/5 blur-[100px] rounded-full" />
       </div>
 
       <aside className="w-full md:w-24 lg:w-64 bg-[#050508]/80 backdrop-blur-xl border-r border-white/5 flex flex-col items-center lg:items-start p-6 lg:p-8 z-30">
@@ -261,7 +308,7 @@ function DashboardContent() {
               className={`flex items-center gap-4 px-4 py-4 rounded-2xl text-[10px] font-mono uppercase tracking-[0.2em] transition-all group ${
                 activeView === item.id 
                 ? 'bg-cyan-500 text-black font-bold shadow-[0_0_25px_rgba(6,182,212,0.3)]' 
-                : 'text-gray-500 hover:text-white hover:bg-white/[0.03]'
+                : 'text-gray-500 hover:text-white hover:bg-white/3'
               }`}
             >
               <span className={`text-sm ${activeView === item.id ? 'text-black' : 'text-cyan-500 group-hover:scale-110 transition-transform'}`}>{item.icon}</span>
@@ -276,8 +323,8 @@ function DashboardContent() {
         </button>
       </aside>
 
-      <section className="flex-grow flex flex-col p-6 md:p-12 overflow-hidden relative z-10 h-full">
-        <header className="flex justify-between items-start mb-8 flex-shrink-0">
+      <section className="grow flex flex-col p-6 md:p-12 overflow-hidden relative z-10 h-full">
+        <header className="flex justify-between items-start mb-8 shrink-0">
           <div>
             <h2 className="text-[10px] font-mono text-gray-600 uppercase tracking-[0.5em] mb-2 italic">System_Status: Operational</h2>
             <h1 className="text-4xl font-black italic tracking-tighter uppercase">
@@ -303,7 +350,7 @@ function DashboardContent() {
                   {activeView === 'requirements' ? '+ Nuevo Requerimiento' : '+ Nueva Solicitud'}
                 </button>
             )}
-            <div className={`flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-white/[0.02] mt-2`}>
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-white/2 mt-2">
                 <span className={`w-1.5 h-1.5 rounded-full ${onlineStaff.length > 0 ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
                 <span className="text-[8px] font-mono text-gray-400 uppercase tracking-widest leading-none">
                     {onlineStaff.length > 0 ? `Staff_En_Línea: ${onlineStaff.length}` : 'Staff_Offline'}
@@ -312,10 +359,10 @@ function DashboardContent() {
           </div>
         </header>
 
-        <div className="animate-reveal flex-grow overflow-hidden flex flex-col">
+        <div className="animate-reveal grow overflow-hidden flex flex-col">
           {activeView === 'overview' && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 italic overflow-y-auto custom-scrollbar pb-10">
-              <div className="lg:col-span-2 bg-gradient-to-br from-[#0a0a0f] to-[#050508] border border-white/10 rounded-[2.5rem] p-10 relative overflow-hidden group">
+              <div className="lg:col-span-2 bg-linear-to-br from-[#0a0a0f] to-[#050508] border border-white/10 rounded-[2.5rem] p-10 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                     <span className="text-8xl font-black">◈</span>
                 </div>
@@ -329,7 +376,7 @@ function DashboardContent() {
           )}
 
           {(activeView === 'projects' || activeView === 'requirements') && (
-            <div className="flex-grow overflow-y-auto pb-10 custom-scrollbar italic font-mono">
+            <div className="grow overflow-y-auto pb-10 custom-scrollbar italic font-mono">
               {showNewProjectForm ? (
                 <div className="max-w-2xl bg-[#08080c] border border-white/10 p-10 rounded-[3rem] shadow-2xl mx-auto animate-reveal">
                   <div className="flex justify-between items-center mb-6 text-cyan-500">
@@ -377,7 +424,6 @@ function DashboardContent() {
                       <textarea required onChange={e => setProjectData({...projectData, desc: e.target.value})} rows={4} className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl text-xs outline-none focus:border-cyan-500" placeholder="Describe los detalles técnicos del requerimiento..." />
                     </div>
 
-                    {/* David: Bloque de observación de costo adicional */}
                     {activeView === 'requirements' && (
                       <div className="bg-amber-500/5 border border-amber-500/20 p-4 rounded-2xl flex items-start gap-3">
                         <span className="text-amber-500 text-xs">⚠️</span>
@@ -404,7 +450,7 @@ function DashboardContent() {
                     {activeView === 'requirements' ? 'Historial de Requerimientos' : 'Administrar Solicitudes'}
                   </h3>
                   {userProjects.filter(p => activeView === 'requirements' ? p.paquete_seleccionado === 'REQUERIMIENTO_ADICIONAL' : p.paquete_seleccionado !== 'REQUERIMIENTO_ADICIONAL').length === 0 ? (
-                    <div className="py-20 text-center border border-dashed border-white/5 rounded-[2rem]">
+                    <div className="py-20 text-center border border-dashed border-white/5 rounded-4xl">
                         <p className="text-gray-600 text-[10px] uppercase tracking-widest">Sin registros activos.</p>
                     </div>
                   ) : (
@@ -433,15 +479,15 @@ function DashboardContent() {
           )}
 
           {activeView === 'support' && (
-            <div className="bg-[#08080c] border border-white/5 rounded-[3rem] flex-grow flex flex-col overflow-hidden italic shadow-2xl relative w-full mb-4">
-                <div className="p-8 border-b border-white/5 bg-[#0a0a0f]/80 backdrop-blur-md flex justify-between items-center flex-shrink-0">
+            <div className="bg-[#08080c] border border-white/5 rounded-[3rem] grow flex flex-col overflow-hidden italic shadow-2xl relative w-full mb-4">
+                <div className="p-8 border-b border-white/5 bg-[#0a0a0f]/80 backdrop-blur-md flex justify-between items-center shrink-0">
                   <div>
                     <h3 className="font-bold text-cyan-400 text-lg tracking-tighter uppercase">Terminal_Seguro // {userName}</h3>
                     <p className="text-[9px] font-mono text-gray-600 uppercase tracking-widest italic">Uplink: {clientEmail}</p>
                   </div>
                 </div>
                 
-                <div className="flex-grow p-8 overflow-y-auto space-y-6 custom-scrollbar flex flex-col bg-[url('/grid.png')] bg-repeat">
+                <div className="grow p-8 overflow-y-auto space-y-6 custom-scrollbar flex flex-col bg-[url('/grid.png')] bg-repeat">
                   {messages.map((msg, i) => (
                     <div key={i} className={`flex flex-col ${msg.es_staff ? 'items-start' : 'items-end'} animate-reveal`}>
                       <span className="text-[8px] font-mono text-gray-700 uppercase mb-1 px-2 tracking-widest">
@@ -470,24 +516,68 @@ function DashboardContent() {
                   <div ref={scrollAnchor} />
                 </div>
 
-                <form onSubmit={sendMessage} className="p-8 bg-[#050508] border-t border-white/5 flex-shrink-0">
-                  <div className="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-[2rem] p-3 px-5 focus-within:border-cyan-500/40 transition-all backdrop-blur-md">
+                <form onSubmit={sendMessage} className="p-8 bg-[#050508] border-t border-white/5 shrink-0">
+                  <div className="flex items-center gap-3 bg-white/3 border border-white/10 rounded-4xl p-3 px-5 focus-within:border-cyan-500/40 transition-all backdrop-blur-md">
                     <label className={`cursor-pointer p-3 text-cyan-500 hover:text-cyan-400 hover:scale-110 transition-all ${uploading ? 'animate-pulse' : ''}`}>
                       <input type="file" className="hidden" onChange={(e) => handleFileUpload(e)} disabled={uploading} />
                       <span className="text-xl">{uploading ? '...' : '📎'}</span>
                     </label>
-                    <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Escribir mensaje maestro..." className="flex-grow bg-transparent p-3 text-sm outline-none normal-case font-sans" />
+                    <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Escribir mensaje maestro..." className="grow bg-transparent p-3 text-sm outline-none normal-case font-sans" />
                     <button type="submit" className="px-8 py-4 bg-cyan-500 text-black font-black text-[10px] rounded-2xl active:scale-95 shadow-lg uppercase tracking-widest hover:brightness-110 transition-all">Transmitir</button>
                   </div>
                 </form>
             </div>
           )}
+
+          {activeView === 'profile' && (
+            <div className="max-w-2xl mx-auto w-full animate-reveal">
+              <div className="bg-[#08080c] border border-white/10 p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-10 opacity-5">
+                   <span className="text-9xl font-black italic">GEAR</span>
+                </div>
+                
+                <h3 className="text-xl font-black text-cyan-500 uppercase tracking-tighter mb-8 italic">Credenciales de Acceso</h3>
+                
+                <div className="space-y-8 relative z-10">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[9px] text-gray-600 uppercase tracking-[0.3em] font-bold font-mono">Nombre de Operador</label>
+                    <div className="bg-white/3 border border-white/5 p-5 rounded-2xl text-xs font-bold uppercase tracking-widest text-white/80">
+                      {userData.nombre}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[9px] text-gray-600 uppercase tracking-[0.3em] font-bold font-mono">Uplink Principal (Email)</label>
+                    <div className="bg-white/3 border border-white/5 p-5 rounded-2xl text-xs font-bold text-cyan-500/80">
+                      {userData.email}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[9px] text-gray-600 uppercase tracking-[0.3em] font-bold font-mono">Nodo de Contacto (Teléfono)</label>
+                    <div className="bg-white/3 border border-white/5 p-5 rounded-2xl text-xs font-bold text-white/80">
+                      {userData.telefono}
+                    </div>
+                  </div>
+
+                  <div className="pt-6 border-t border-white/5">
+                    <div className="flex items-center gap-4 p-4 bg-cyan-500/5 rounded-2xl border border-cyan-500/10">
+                      <div className="w-2 h-2 bg-cyan-500 rounded-full animate-ping" />
+                      <p className="text-[9px] text-cyan-500/70 uppercase tracking-widest leading-relaxed">
+                        Tu perfil está sincronizado con el <span className="font-bold">Identity Shield v4.6</span>. Para modificar tus datos, contacta con soporte técnico.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        <footer className="pt-4 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center text-[8px] font-mono text-gray-800 tracking-[0.6em] uppercase italic gap-4 flex-shrink-0">
+        <footer className="pt-4 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center text-[8px] font-mono text-gray-800 tracking-[0.6em] uppercase italic gap-4 shrink-0">
           <div className="flex items-center gap-2">
             <span className="w-1 h-1 bg-cyan-900 rounded-full animate-ping" />
-            <span>Gravity Labs Ops // v4.2</span>
+            <span>Gravity Labs Ops // v4.3</span>
           </div>
           <span className="text-cyan-900/40 font-bold">Secure_Connection: True // Node: HQ_LATAM</span>
         </footer>
@@ -505,7 +595,7 @@ function DashboardContent() {
 
 export default function DashboardPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#020205] flex items-center justify-center font-mono text-[10px] text-gray-800 tracking-[1em] animate-pulse">SYSTEM_BOOT_SEQUENCE...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#020205] flex items-center justify-center font-mono text-[10px] text-cyan-900 tracking-[1em] animate-pulse uppercase">Verifying_Identity_Core...</div>}>
       <DashboardContent />
     </Suspense>
   );
