@@ -7,7 +7,10 @@ export default function CTAClose() {
   return (
     <section
       className="py-20 md:py-28 relative overflow-hidden"
-      style={{ background: "var(--color-space-black)" }}
+      style={{
+        background:
+          "linear-gradient(180deg, var(--color-space-deep) 0%, var(--color-space-black) 100%)",
+      }}
       aria-labelledby="cta-close-title"
     >
       {/* Radial glow */}

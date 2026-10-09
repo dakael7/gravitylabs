@@ -8,6 +8,20 @@ import { useState } from "react";
 
 type Project = (typeof siteConfig.projects)[number];
 
+function GooglePlayIcon({ size = 18 }: { size?: number }) {
+  return (
+    <Image
+      src="/images/res/googleplay.png"
+      alt=""
+      aria-hidden="true"
+      width={960}
+      height={1060}
+      className="shrink-0 object-contain"
+      style={{ width: size, height: size }}
+    />
+  );
+}
+
 function BrowserFrame({ project }: { project: Project }) {
   const [imgError, setImgError] = useState(false);
   const host = project.url
@@ -105,49 +119,58 @@ function AppFrame({ project }: { project: Project }) {
   const [imgError, setImgError] = useState(false);
 
   return (
-    <div
-      className="relative mx-auto overflow-hidden group cursor-pointer"
-      style={{
-        width: "220px",
-        height: "440px",
-        background: "rgba(13,18,32,0.95)",
-        border: "8px solid rgba(255,255,255,0.12)",
-        borderRadius: "36px",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05)",
-      }}
-    >
-      {/* Notch */}
+    <div className="flex w-full flex-col items-center">
       <div
-        className="absolute top-2 left-1/2 -translate-x-1/2 z-10"
+        className="group relative mx-auto w-full cursor-pointer overflow-hidden"
         style={{
-          width: "80px",
-          height: "20px",
-          background: "rgba(8,12,20,0.9)",
-          borderRadius: "10px",
+          maxWidth: "190px",
+          padding: "18px 5px 7px",
+          background: "linear-gradient(145deg, #303746, #111722 35%, #252c39)",
+          border: "1px solid rgba(255,255,255,0.24)",
+          borderRadius: "25px",
+          boxShadow:
+            "0 18px 42px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0,0,0,0.55)",
         }}
-      />
-
-      {/* Screenshot */}
-      <div className="relative w-full h-full overflow-hidden rounded-[28px]">
-        {imgError || !project.screenshot ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3"
-            style={{ background: "linear-gradient(135deg, rgba(34,211,238,0.08), rgba(17,24,39,0.95))" }}
-          >
-            <Smartphone size={36} color="var(--color-muted)" aria-hidden="true" />
-            <span className="text-xs text-[var(--color-muted)]">Captura próximamente</span>
-          </div>
-        ) : (
-          <Image
-            src={project.screenshot}
-            alt={project.alt}
-            fill
-            sizes="220px"
-            className="object-cover object-top"
-            onError={() => setImgError(true)}
-            loading="lazy"
-            style={{ transition: "transform 0.4s ease" }}
-          />
-        )}
+      >
+        <div
+          className="absolute left-1/2 top-[6px] z-10 -translate-x-1/2"
+          style={{
+            width: "48px",
+            height: "9px",
+            borderRadius: "999px",
+            background: "#05070b",
+            boxShadow: "inset 0 1px 2px rgba(255,255,255,0.1)",
+          }}
+          aria-hidden="true"
+        />
+        <div
+          className="relative w-full overflow-hidden"
+          style={{
+            aspectRatio: "540 / 1106",
+            borderRadius: "16px",
+            background: "rgba(13,18,32,0.95)",
+          }}
+        >
+          {imgError || !project.screenshot ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3"
+              style={{ background: "linear-gradient(135deg, rgba(34,211,238,0.08), rgba(17,24,39,0.95))" }}
+            >
+              <Smartphone size={36} color="var(--color-muted)" aria-hidden="true" />
+              <span className="text-xs text-[var(--color-muted)]">Captura próximamente</span>
+            </div>
+          ) : (
+            <Image
+              src={project.screenshot}
+              alt={project.alt}
+              fill
+              sizes="(max-width: 768px) calc(100vw - 72px), 190px"
+              className="object-cover object-top"
+              onError={() => setImgError(true)}
+              loading="lazy"
+              style={{ transition: "transform 0.4s ease" }}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
@@ -187,7 +210,7 @@ function ProjectCard({ project }: { project: Project }) {
       {/* Info */}
       <div className="px-5 pb-6 flex flex-col gap-3 flex-1">
         {/* Label chip + external icon */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center gap-2">
           <span
             className={`chip text-xs ${
               project.label === "Proyecto real" ? "chip-emerald" : "chip-indigo"
@@ -195,7 +218,12 @@ function ProjectCard({ project }: { project: Project }) {
           >
             {project.label}
           </span>
-          {hasUrl ? (
+          {project.type === "app" && hasUrl ? (
+            <span className="chip chip-emerald inline-flex items-center gap-1.5 text-xs">
+              <GooglePlayIcon size={14} />
+              Disponible en Google Play
+            </span>
+          ) : hasUrl ? (
             <ExternalLink size={15} color="var(--color-muted)" aria-hidden="true" />
           ) : (
             <span className="chip chip-muted text-xs">Próximamente</span>
@@ -226,7 +254,7 @@ function ProjectCard({ project }: { project: Project }) {
         href={project.url}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`Abrir la demo de ${project.title} en una pestaña nueva`}
+        aria-label={`Abrir ${project.title} en una pestaña nueva`}
         className={[
           "block h-full",
           isFeatured ? "md:col-span-2" : "",

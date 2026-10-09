@@ -105,9 +105,9 @@ export const siteConfig = {
       description:
         "App de finanzas personales para Android, publicada en Google Play. Diseño, desarrollo y publicación completos.",
       type: "app" as "web" | "app",
-      screenshot: "/images/portafolio/rinde-captura.png",
+      screenshot: "/images/res/RINDE.jpeg",
       alt: "Captura de pantalla de la app RINDE en un dispositivo Android",
-      url: "",
+      url: "https://play.google.com/store/apps/details?id=com.gravitylabs.rinde",
       ctaLabel: "Ver en Google Play",
       featured: false,
     },

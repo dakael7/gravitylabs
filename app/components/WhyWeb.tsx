@@ -31,8 +31,7 @@ const cards = [
 export default function WhyWeb() {
   return (
     <section
-      className="py-16 md:py-24 bg-dots"
-      style={{ background: "var(--color-space-deep)" }}
+      className="py-16 md:py-24 bg-space bg-dots"
       aria-labelledby="why-web-title"
     >
       <div className="max-w-6xl mx-auto px-5">

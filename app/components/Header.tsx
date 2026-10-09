@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import BrandLogo from "./BrandLogo";
 
 const navLinks = [
   { href: "#planes", label: "Planes" },
@@ -9,54 +10,6 @@ const navLinks = [
   { href: "#como-trabajamos", label: "Cómo trabajamos" },
   { href: "#preguntas", label: "Preguntas" },
 ];
-
-function LogoIcon() {
-  return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      {/* Outer orbit ring */}
-      <ellipse
-        cx="16" cy="16" rx="14" ry="6"
-        stroke="url(#orbit-grad)" strokeWidth="1.5" fill="none"
-        opacity="0.7"
-        transform="rotate(-25 16 16)"
-      />
-      {/* Inner orbit ring */}
-      <ellipse
-        cx="16" cy="16" rx="9" ry="4"
-        stroke="url(#orbit-grad2)" strokeWidth="1.2" fill="none"
-        opacity="0.5"
-        transform="rotate(55 16 16)"
-      />
-      {/* Center planet */}
-      <circle cx="16" cy="16" r="4.5" fill="url(#planet-grad)" />
-      {/* Orbit dot */}
-      <circle cx="28" cy="13" r="1.8" fill="#22d3ee" opacity="0.9" />
-      {/* Orbit dot 2 */}
-      <circle cx="6" cy="20" r="1.2" fill="#5b5ef4" opacity="0.8" />
-      <defs>
-        <linearGradient id="orbit-grad" x1="2" y1="16" x2="30" y2="16">
-          <stop offset="0%" stopColor="#5b5ef4" />
-          <stop offset="100%" stopColor="#22d3ee" />
-        </linearGradient>
-        <linearGradient id="orbit-grad2" x1="2" y1="16" x2="30" y2="16">
-          <stop offset="0%" stopColor="#22d3ee" />
-          <stop offset="100%" stopColor="#10b981" />
-        </linearGradient>
-        <radialGradient id="planet-grad" cx="40%" cy="35%">
-          <stop offset="0%" stopColor="#7c7fff" />
-          <stop offset="100%" stopColor="#5b5ef4" />
-        </radialGradient>
-      </defs>
-    </svg>
-  );
-}
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -122,7 +75,7 @@ export default function Header() {
           className="flex items-center gap-2.5 font-display font-bold text-lg text-[var(--color-bone)] no-underline"
           aria-label="Gravity Labs — inicio"
         >
-          <LogoIcon />
+          <BrandLogo size={48} />
           <span className="tracking-tight">
             GRAVITY <span className="text-[var(--color-indigo-bright)]">LABS</span>
           </span>
