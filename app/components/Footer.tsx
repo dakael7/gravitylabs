@@ -49,7 +49,7 @@ export default function Footer() {
               className="flex items-center gap-2 font-display font-bold text-base text-[var(--color-bone)] no-underline"
               aria-label="Gravity Labs — inicio"
             >
-              <BrandLogo size={40} />
+              <BrandLogo size={32} />
               GRAVITY <span className="text-[var(--color-indigo-bright)] ml-1">LABS</span>
             </a>
           </div>

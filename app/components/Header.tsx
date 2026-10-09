@@ -75,7 +75,7 @@ export default function Header() {
           className="flex items-center gap-2.5 font-display font-bold text-lg text-[var(--color-bone)] no-underline"
           aria-label="Gravity Labs — inicio"
         >
-          <BrandLogo size={48} />
+          <BrandLogo size={36} />
           <span className="tracking-tight">
             GRAVITY <span className="text-[var(--color-indigo-bright)]">LABS</span>
           </span>
