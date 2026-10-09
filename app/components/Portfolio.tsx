@@ -124,30 +124,29 @@ function AppFrame({ project }: { project: Project }) {
         className="group relative mx-auto w-full cursor-pointer overflow-hidden"
         style={{
           maxWidth: "190px",
-          padding: "18px 5px 7px",
-          background: "linear-gradient(145deg, #303746, #111722 35%, #252c39)",
-          border: "1px solid rgba(255,255,255,0.24)",
-          borderRadius: "25px",
+          padding: "6px",
+          background: "linear-gradient(145deg, #47536a, #0a0f19 38%, #283348)",
+          border: "1px solid rgba(206,222,255,0.48)",
+          borderRadius: "29px",
           boxShadow:
-            "0 18px 42px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0,0,0,0.55)",
+            "0 26px 62px rgba(0,0,0,0.62), 0 0 32px rgba(93,107,255,0.18)",
         }}
       >
         <div
-          className="absolute left-1/2 top-[6px] z-10 -translate-x-1/2"
+          className="absolute left-1/2 top-[13px] z-10 -translate-x-1/2"
           style={{
-            width: "48px",
-            height: "9px",
+            width: "27%",
+            height: "8px",
             borderRadius: "999px",
-            background: "#05070b",
-            boxShadow: "inset 0 1px 2px rgba(255,255,255,0.1)",
+            background: "#0b1018",
           }}
           aria-hidden="true"
         />
         <div
           className="relative w-full overflow-hidden"
           style={{
-            aspectRatio: "540 / 1106",
-            borderRadius: "16px",
+            aspectRatio: "0.49",
+            borderRadius: "23px",
             background: "rgba(13,18,32,0.95)",
           }}
         >
