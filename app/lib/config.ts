@@ -92,9 +92,9 @@ export const siteConfig = {
       description:
         "Web para un estudio dental, pensada para que cada visita termine en un mensaje de WhatsApp.",
       type: "web" as "web" | "app",
-      screenshot: "/images/portafolio/zenit-captura.jpg",
+      screenshot: "/images/portafolio/zenit-ss.png",
       alt: "Captura de pantalla completa del sitio web de Zénit, estudio dental",
-      url: "https://zenit.TU-DOMINIO.com",
+      url: "https://zenitdental.vercel.app",
       ctaLabel: "Ver demo completa",
       featured: true,
     },
