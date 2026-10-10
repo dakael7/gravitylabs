@@ -1,12 +1,10 @@
 import { Check, Smartphone, ShoppingCart, Settings } from "lucide-react";
 import { siteConfig } from "../lib/config";
-import { buildWhatsAppLinkByKey } from "../lib/whatsapp";
 import ScrollReveal from "./ScrollReveal";
+import { WhatsAppButton } from "./WhatsAppButton";
 
 export default function Plans() {
   const { plans, launchOffer } = siteConfig;
-  const customProjectLink = buildWhatsAppLinkByKey("customProject");
-
   return (
     <section
       id="planes"
@@ -33,14 +31,12 @@ export default function Plans() {
         </ScrollReveal>
 
         {/* Plans grid */}
-        <div className="grid md:grid-cols-2 gap-6 mt-10">
+        <div className="grid md:grid-cols-2 items-stretch gap-6 mt-10">
           {plans.map((plan, i) => {
             const isNebula = plan.id === "nebula";
             const showOffer = isNebula && launchOffer.enabled;
-            const link = buildWhatsAppLinkByKey(plan.whatsappMessageKey);
-
             return (
-              <ScrollReveal key={plan.id} delay={i * 120}>
+              <ScrollReveal key={plan.id} delay={i * 120} className="h-full">
                 <div
                   className={[
                     "glass-card plan-card h-full flex flex-col gap-6 p-7 md:p-8 relative overflow-hidden",
@@ -63,13 +59,13 @@ export default function Plans() {
                   {(plan.badge || showOffer) && (
                     <div className="flex flex-wrap items-center gap-2">
                       {plan.badge && (
-                        <span className="chip chip-indigo text-xs font-semibold">
+                        <span className="chip chip-indigo font-semibold">
                           {plan.badge}
                         </span>
                       )}
                       {showOffer && (
                         <span
-                          className="chip text-xs font-semibold"
+                          className="chip font-semibold"
                           style={{
                             background: "rgba(234,179,8,0.15)",
                             borderColor: "rgba(234,179,8,0.4)",
@@ -138,15 +134,14 @@ export default function Plans() {
                   </ul>
 
                   {/* CTA */}
-                  <a
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <WhatsAppButton
+                    location={isNebula ? "plan_nebula" : "plan_supernova"}
+                    messageKey={plan.whatsappMessageKey}
                     className={`btn btn-lg ${plan.featured ? "btn-primary" : "btn-secondary"}`}
                     id={`plan-cta-${plan.id}`}
                   >
                     Quiero este plan
-                  </a>
+                  </WhatsAppButton>
                 </div>
               </ScrollReveal>
             );
@@ -184,15 +179,14 @@ export default function Plans() {
                 ))}
               </div>
             </div>
-            <a
-              href={customProjectLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <WhatsAppButton
+              location="a_medida"
+              messageKey="customProject"
               className="btn btn-secondary btn-lg flex-shrink-0"
               id="cta-custom-project"
             >
               Cuéntanos tu idea
-            </a>
+            </WhatsAppButton>
           </div>
         </ScrollReveal>
 

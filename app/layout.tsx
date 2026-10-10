@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -52,7 +53,10 @@ export default function RootLayout({
       lang="es"
       className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-dvh flex flex-col antialiased">{children}</body>
+      <body className="min-h-dvh flex flex-col antialiased">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

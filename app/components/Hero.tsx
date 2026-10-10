@@ -1,13 +1,11 @@
-﻿import { MessageCircle, ChevronDown } from "lucide-react";
-import { buildWhatsAppLinkByKey } from "../lib/whatsapp";
+import { Check, ChevronDown, MessageCircle } from "lucide-react";
+import { WhatsAppButton } from "./WhatsAppButton";
 import HeroMockups from "./HeroMockups";
 
 export default function Hero() {
-  const whatsappDefault = buildWhatsAppLinkByKey("default");
-
   return (
     <section
-      className="relative min-h-svh flex items-center bg-space bg-dots pt-20 pb-16"
+      className="relative min-h-svh flex items-center bg-space bg-dots pt-16 pb-12 sm:pt-20 sm:pb-16"
       aria-label="Encabezado principal"
     >
       {/* Extra glow top-left */}
@@ -43,8 +41,8 @@ export default function Hero() {
 
       <div className="max-w-6xl mx-auto px-5 w-full z-10">
         <div className="grid items-center gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6">
-          <div className="max-w-2xl">
-          <div className="flex flex-col gap-6">
+          <div className="max-w-2xl min-w-0">
+          <div className="flex flex-col gap-4 sm:gap-6">
             {/* Overline */}
             <div
               className="overline animate-fade-in-up"
@@ -66,26 +64,55 @@ export default function Hero() {
 
             {/* Body */}
             <p
-              className="text-lg text-[var(--color-muted)] leading-relaxed max-w-lg animate-fade-in-up"
+              className="text-base sm:text-lg text-[var(--color-muted)] leading-relaxed max-w-lg animate-fade-in-up"
               style={{ animationDelay: "160ms" }}
             >
-              Diseñamos y programamos páginas web pensadas para las necesidades
-              de tu negocio.
+              Diseñamos y programamos tu página web y la preparamos para que te
+              lleguen clientes. Un solo equipo, precios claros desde{" "}
+              <a
+                href="#planes"
+                className="font-semibold text-[var(--color-bone)] underline underline-offset-4"
+              >
+                $98
+              </a>
+              .
             </p>
 
-            {/* CTA principal */}
-            <div className="animate-fade-in-up" style={{ animationDelay: "240ms" }}>
-              <a
-                href={whatsappDefault}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-whatsapp btn-lg"
+            <div className="flex flex-col gap-3 animate-fade-in-up" style={{ animationDelay: "240ms" }}>
+              <WhatsAppButton
+                location="hero"
+                messageKey="default"
+                className="btn btn-whatsapp btn-lg w-full sm:w-fit px-3 sm:px-8"
                 id="hero-cta-whatsapp"
               >
                 <MessageCircle size={20} aria-hidden="true" />
                 Escríbenos por WhatsApp
-              </a>
+              </WhatsAppButton>
+              <WhatsAppButton
+                location="hero_llamada"
+                messageKey="heroCall"
+                className="btn btn-secondary btn-lg w-full sm:w-fit px-3 sm:px-8 text-sm sm:text-base"
+              >
+                Agenda una llamada gratuita de 20 min
+              </WhatsAppButton>
             </div>
+
+            <ul className="flex flex-col gap-2 text-sm text-[var(--color-muted)]">
+              {[
+                "Ves el diseño antes de que programemos",
+                "Precios publicados",
+                "Pagas 50% para empezar y 50% al entregar",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <Check
+                    size={16}
+                    className="shrink-0 text-[var(--color-emerald-accent)]"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
 
             {/* Discrete link */}
             <a

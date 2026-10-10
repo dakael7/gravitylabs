@@ -17,6 +17,7 @@ export default function BrandLogo({ size }: { size: number }) {
         aria-hidden="true"
         width={size}
         height={size}
+        sizes={`${size * 1.35}px`}
         className="absolute z-10 max-w-none object-contain"
         style={{
           width: size * 1.35,

@@ -55,6 +55,14 @@ html {
   html { scroll-behavior: auto; }
 }
 
+@media print, (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal="true"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 body {
   background-color: var(--color-space-black);
   color: var(--color-bone);
@@ -84,7 +92,7 @@ body {
 /* Overline: etiquetas superiores */
 .overline {
   font-family: var(--font-mono), monospace;
-  font-size: 0.6875rem;  /* 11px */
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -170,23 +178,23 @@ body {
 
 /* Primario — índigo, contraste ≥4.5:1 con blanco */
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-indigo-primary) 0%, var(--color-indigo-bright) 100%);
+  background: linear-gradient(135deg, #414dc4 0%, #4d58c9 100%);
   color: #ffffff;
   box-shadow: 0 0 22px rgba(93,107,255,0.32);
 }
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--color-indigo-bright) 0%, #8892ff 100%);
+  background: linear-gradient(135deg, #4d58c9 0%, #5661d0 100%);
   box-shadow: 0 0 30px rgba(93,107,255,0.44);
 }
 
 /* WhatsApp */
 .btn-whatsapp {
-  background: var(--color-whatsapp);
+  background: #147a4a;
   color: #ffffff;
   box-shadow: 0 0 20px rgba(37,211,102,0.35);
 }
 .btn-whatsapp:hover {
-  background: var(--color-whatsapp-dark);
+  background: #11683f;
   box-shadow: 0 0 32px rgba(37,211,102,0.5);
 }
 
@@ -199,6 +207,19 @@ body {
 .btn-secondary:hover {
   background: rgba(255,255,255,0.12);
   border-color: rgba(255,255,255,0.30);
+}
+
+.btn-demo {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--color-space-deep), var(--color-space-deep)) padding-box,
+    linear-gradient(110deg, var(--color-indigo-bright), var(--color-cyan-accent)) border-box;
+  color: var(--color-bone);
+}
+.btn-demo:hover {
+  background:
+    linear-gradient(rgba(255,255,255,0.08), rgba(255,255,255,0.08)) padding-box,
+    linear-gradient(110deg, var(--color-indigo-bright), var(--color-cyan-accent)) border-box;
 }
 
 /* Tamaño grande */
@@ -1249,7 +1270,7 @@ body {
   align-items: center;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 500;
   border: 1px solid;
 }

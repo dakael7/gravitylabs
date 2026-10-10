@@ -1,5 +1,6 @@
 import { siteConfig } from "../lib/config";
 import BrandLogo from "./BrandLogo";
+import Link from "next/link";
 
 const navLinks = [
   { href: "#planes", label: "Planes" },
@@ -44,14 +45,17 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           {/* Brand */}
           <div className="flex flex-col gap-2">
-            <a
+            <Link
               href="/"
               className="flex items-center gap-2 font-display font-bold text-base text-[var(--color-bone)] no-underline"
               aria-label="Gravity Labs — inicio"
             >
               <BrandLogo size={32} />
               GRAVITY <span className="text-[var(--color-indigo-bright)] ml-1">LABS</span>
-            </a>
+            </Link>
+            <p className="text-sm text-[var(--color-muted)]">
+              Diseño, desarrollo y marketing para negocios que quieren vender más.
+            </p>
           </div>
 
           {/* Nav links */}
@@ -81,7 +85,7 @@ export default function Footer() {
 
         <div className="divider-gradient mt-8 mb-5" aria-hidden="true" />
 
-        <p className="text-xs text-[var(--color-muted)] text-center">
+        <p className="text-sm text-[var(--color-muted)] text-center">
           © {year} Gravity Labs. Todos los derechos reservados.
         </p>
       </div>

@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useRef, ReactNode, ElementType } from "react";
+import { useEffect, useRef, ReactNode } from "react";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -19,11 +19,19 @@ export default function ScrollReveal({
     const el = ref.current;
     if (!el) return;
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (reducedMotion) {
+    const reveal = () => {
       el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+      observer.unobserve(el);
+      window.clearTimeout(fallbackTimer);
+    };
+
+    const bounds = el.getBoundingClientRect();
+    if (
+      typeof IntersectionObserver === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      (bounds.top <= window.innerHeight && bounds.bottom >= 0)
+    ) {
       return;
     }
 
@@ -31,25 +39,27 @@ export default function ScrollReveal({
     el.style.transform = "translateY(12px)";
     el.style.transition = `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms`;
 
+    const fallbackTimer = window.setTimeout(reveal, 2500);
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            el.style.opacity = "1";
-            el.style.transform = "translateY(0)";
-            observer.unobserve(el);
+            reveal();
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.05, rootMargin: "0px 0px 15% 0px" }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallbackTimer);
+    };
   }, [delay]);
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className={className} data-scroll-reveal="true">
       {children}
     </div>
   );

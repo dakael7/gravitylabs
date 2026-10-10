@@ -50,7 +50,7 @@ export default function WhyGravity() {
                     <p className="font-semibold text-[var(--color-bone)] text-sm">
                       {member.name}
                     </p>
-                    <p className="text-xs text-[var(--color-muted)] mt-0.5">
+                    <p className="text-sm text-[var(--color-muted)] mt-0.5">
                       {member.role}
                     </p>
                   </div>

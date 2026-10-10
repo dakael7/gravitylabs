@@ -1,8 +1,10 @@
 ﻿"use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, MessageCircle, X } from "lucide-react";
+import Link from "next/link";
 import BrandLogo from "./BrandLogo";
+import { WhatsAppButton } from "./WhatsAppButton";
 
 const navLinks = [
   { href: "#planes", label: "Planes" },
@@ -70,7 +72,7 @@ export default function Header() {
         ].join(" ")}
       >
         {/* Logo */}
-        <a
+        <Link
           href="/"
           className="flex items-center gap-2.5 font-display font-bold text-lg text-[var(--color-bone)] no-underline"
           aria-label="Gravity Labs — inicio"
@@ -79,7 +81,7 @@ export default function Header() {
           <span className="tracking-tight">
             GRAVITY <span className="text-[var(--color-indigo-bright)]">LABS</span>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav
@@ -138,6 +140,16 @@ export default function Header() {
             </a>
           ))}
         </nav>
+        <div className="px-5 pb-8">
+          <WhatsAppButton
+            location="header"
+            messageKey="default"
+            className="btn btn-whatsapp w-full"
+          >
+            <MessageCircle size={18} aria-hidden="true" />
+            Escríbenos por WhatsApp
+          </WhatsAppButton>
+        </div>
       </div>
     </header>
   );

@@ -6,6 +6,7 @@
 
 export type WhatsAppMessageKey =
   | "default"
+  | "heroCall"
   | "nebulaLanding"
   | "supernovaBusiness"
   | "customProject";
@@ -23,6 +24,8 @@ export const siteConfig = {
   whatsappMessages: {
     default:
       "Hola, estuve viendo la web de Gravity Labs y me gustaría información sobre sus servicios.",
+    heroCall:
+      "Hola, quiero agendar la llamada gratuita de 20 minutos con Gravity Labs.",
     nebulaLanding:
       "Hola, vi la web de Gravity Labs y quiero el plan Nebula Landing.",
     supernovaBusiness:

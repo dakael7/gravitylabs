@@ -8,6 +8,7 @@ import HowWeWork from "./components/HowWeWork";
 import FAQ from "./components/FAQ";
 import CTAClose from "./components/CTAClose";
 import Footer from "./components/Footer";
+import WhatsAppFloatingButton from "./components/WhatsAppButton";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <CTAClose />
       </main>
       <Footer />
+      <WhatsAppFloatingButton />
     </>
   );
 }
