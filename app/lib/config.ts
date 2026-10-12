@@ -102,6 +102,19 @@ export const siteConfig = {
       featured: true,
     },
     {
+      id: "arraigo",
+      title: "Arraigo",
+      label: "Concepto de diseño" as "Concepto de diseño" | "Proyecto real",
+      description:
+        "Concepto inmobiliario en Caracas con inventario directo y una experiencia guiada que prioriza documentos, estructura y servicios verificados.",
+      type: "web" as "web" | "app",
+      screenshot: "/images/portafolio/arraigo-ss.png",
+      alt: "Captura del sitio de Arraigo Bienes Raíces, con su propuesta de inmuebles en Caracas",
+      url: "https://rs-arraigo.vercel.app",
+      ctaLabel: "Ver demo completa",
+      featured: true,
+    },
+    {
       id: "rinde",
       title: "RINDE",
       label: "Proyecto real" as "Concepto de diseño" | "Proyecto real",

@@ -278,7 +278,7 @@ export default function Portfolio() {
         </ScrollReveal>
 
         {/* Grid */}
-        <div className="grid md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {siteConfig.projects.map((project, i) => (
             <ScrollReveal
               key={project.id}
